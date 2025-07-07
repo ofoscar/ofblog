@@ -1,5 +1,6 @@
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import AppBar from './components/AppBar';
+import './i18n/config';
 import MainPage from './pages/MainPage';
 import PostsPage from './pages/PostsPage';
 
