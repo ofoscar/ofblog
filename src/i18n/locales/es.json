@@ -2,6 +2,22 @@
   "appbar": {
     "title": "ofblog",
     "main": "Principal",
-    "posts": "Publicaciones"
+    "posts": "Publicaciones",
+    "login": "Iniciar sesión",
+    "logout": "Cerrar sesión"
+  },
+  "login": {
+    "title": "Inicia sesión en tu cuenta",
+    "subtitle": "Bienvenido de vuelta a ofblog",
+    "email": "Dirección de correo electrónico",
+    "emailPlaceholder": "Introduce tu correo electrónico",
+    "password": "Contraseña",
+    "passwordPlaceholder": "Introduce tu contraseña",
+    "rememberMe": "Recuérdame",
+    "forgotPassword": "¿Olvidaste tu contraseña?",
+    "signIn": "Iniciar sesión",
+    "signingIn": "Iniciando sesión...",
+    "noAccount": "¿No tienes una cuenta?",
+    "signUp": "Registrarse"
   }
 }

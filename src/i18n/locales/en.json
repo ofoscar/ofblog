@@ -2,6 +2,22 @@
   "appbar": {
     "title": "ofblog",
     "main": "Main",
-    "posts": "Posts"
+    "posts": "Posts",
+    "login": "Login",
+    "logout": "Logout"
+  },
+  "login": {
+    "title": "Sign in to your account",
+    "subtitle": "Welcome back to ofblog",
+    "email": "Email address",
+    "emailPlaceholder": "Enter your email",
+    "password": "Password",
+    "passwordPlaceholder": "Enter your password",
+    "rememberMe": "Remember me",
+    "forgotPassword": "Forgot your password?",
+    "signIn": "Sign in",
+    "signingIn": "Signing in...",
+    "noAccount": "Don't have an account?",
+    "signUp": "Sign up"
   }
 }

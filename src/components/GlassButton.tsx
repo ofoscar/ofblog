@@ -1,14 +1,14 @@
 import React from 'react';
 
-interface GlassButtonProps {
+interface GlassButtonProps
+  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
-  onClick?: () => void;
   className?: string;
 }
 
-function GlassButton({ children, onClick, className = '' }: GlassButtonProps) {
+function GlassButton({ children, className = '', ...props }: GlassButtonProps) {
   return (
-    <button className={`glass-button ${className}`} onClick={onClick}>
+    <button className={`glass-button ${className}`} {...props}>
       {children}
     </button>
   );
