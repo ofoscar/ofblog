@@ -1,4 +1,5 @@
 import { createContext, useContext, useEffect, useState } from 'react';
+import { apiService } from '../services/api';
 
 interface User {
   _id: string;
@@ -17,7 +18,7 @@ interface AuthContextType {
     email: string,
     password: string,
   ) => Promise<{ success: boolean; message?: string }>;
-  logout: () => void;
+  logout: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -62,17 +63,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
   const login = async (email: string, password: string) => {
     try {
-      const apiUrl = import.meta.env.VITE_API_URL;
-
-      const response = await fetch(`${apiUrl}/api/auth/login`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email, password }),
-      });
-
-      const data = await response.json();
+      const data = await apiService.login(email, password);
 
       if (data.success) {
         setToken(data.token);
@@ -95,11 +86,22 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     }
   };
 
-  const logout = () => {
-    setUser(null);
-    setToken(null);
-    localStorage.removeItem('authToken');
-    localStorage.removeItem('authUser');
+  const logout = async () => {
+    try {
+      if (token) {
+        // Call the logout API endpoint
+        await apiService.logout();
+      }
+    } catch (error) {
+      console.error('Logout API error:', error);
+      // Continue with local logout even if API call fails
+    } finally {
+      // Always clear local state and storage
+      setUser(null);
+      setToken(null);
+      localStorage.removeItem('authToken');
+      localStorage.removeItem('authUser');
+    }
   };
 
   const value = {

@@ -19,5 +19,10 @@
     "signingIn": "Signing in...",
     "noAccount": "Don't have an account?",
     "signUp": "Sign up"
+  },
+  "userAvatar": {
+    "profile": "Profile",
+    "settings": "Settings",
+    "logout": "Log out"
   }
 }

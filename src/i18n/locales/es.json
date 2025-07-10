@@ -19,5 +19,10 @@
     "signingIn": "Iniciando sesión...",
     "noAccount": "¿No tienes una cuenta?",
     "signUp": "Registrarse"
+  },
+  "userAvatar": {
+    "profile": "Perfil",
+    "settings": "Configuración",
+    "logout": "Cerrar sesión"
   }
 }

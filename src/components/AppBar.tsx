@@ -9,8 +9,8 @@ const AppBar = () => {
   const { t } = useAppTranslation();
   const { isAuthenticated, logout } = useAuth();
 
-  const handleLogout = () => {
-    logout();
+  const handleLogout = async () => {
+    await logout();
     navigate('/');
   };
 
