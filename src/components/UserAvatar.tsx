@@ -8,13 +8,14 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { LogOut, Settings, Shield, UserCircle } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { useAppTranslation } from '../hooks/useAppTranslation';
 
 const UserAvatar = () => {
   const { user, logout } = useAuth();
   const { t } = useAppTranslation();
-
+  const navigate = useNavigate();
   const handleLogout = async () => {
     await logout();
   };
@@ -71,7 +72,12 @@ const UserAvatar = () => {
           <span>{t('userAvatar.settings')}</span>
         </DropdownMenuItem>
         {user?.role === 'admin' && (
-          <DropdownMenuItem className='cursor-pointer'>
+          <DropdownMenuItem
+            className='cursor-pointer'
+            onClick={() => {
+              navigate('/admin');
+            }}
+          >
             <Shield className='mr-2 h-4 w-4' />
             <span>{t('userAvatar.admin')}</span>
           </DropdownMenuItem>

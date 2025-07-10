@@ -1,9 +1,12 @@
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import './App.css';
+import AdminRoute from './components/AdminRoute';
 import AppBar from './components/AppBar';
 import Footer from './components/Footer';
 import { AuthProvider } from './contexts/AuthContext';
 import './i18n/config';
+import AddPostPage from './pages/AddPostPage';
+import { AdminPage } from './pages/AdminPage';
 import LoginPage from './pages/LoginPage';
 import MainPage from './pages/MainPage';
 import PostsPage from './pages/PostsPage';
@@ -21,6 +24,22 @@ function App() {
               <Route path='/posts' element={<PostsPage />} />
               <Route path='/login' element={<LoginPage />} />
               <Route path='/signup' element={<SignupPage />} />
+              <Route
+                path='/admin'
+                element={
+                  <AdminRoute>
+                    <AdminPage />
+                  </AdminRoute>
+                }
+              />
+              <Route
+                path='/admin/add-post'
+                element={
+                  <AdminRoute>
+                    <AddPostPage />
+                  </AdminRoute>
+                }
+              />
             </Routes>
           </main>
           <Footer />

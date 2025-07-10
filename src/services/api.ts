@@ -73,10 +73,49 @@ class ApiService {
     return response.json();
   }
 
-  // Future API methods can be added here
-  // async getPosts() { ... }
-  // async createPost(data) { ... }
-  // etc.
+  // Posts API methods
+  async getPosts(params?: {
+    page?: number;
+    limit?: number;
+    sort?: string;
+    category?: string;
+    tags?: string;
+    search?: string;
+    author?: string;
+    status?: string;
+  }) {
+    const queryParams = new URLSearchParams();
+
+    if (params) {
+      Object.entries(params).forEach(([key, value]) => {
+        if (value !== undefined && value !== null) {
+          queryParams.append(key, value.toString());
+        }
+      });
+    }
+
+    const response = await this.makeRequest(
+      `/api/posts?${queryParams.toString()}`,
+    );
+    return response.json();
+  }
+
+  async updatePostStatus(postId: string, status: string) {
+    const response = await this.makeRequest(`/api/posts/${postId}`, {
+      method: 'PATCH',
+      body: JSON.stringify({ status }),
+    });
+
+    return response.json();
+  }
+
+  async deletePost(postId: string) {
+    const response = await this.makeRequest(`/api/posts/${postId}`, {
+      method: 'DELETE',
+    });
+
+    return response.json();
+  }
 }
 
 export const apiService = new ApiService();
