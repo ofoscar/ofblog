@@ -4,6 +4,7 @@
     "main": "Principal",
     "posts": "Publicaciones",
     "login": "Iniciar sesión",
+    "signup": "Registrarse",
     "logout": "Cerrar sesión"
   },
   "login": {
@@ -19,6 +20,26 @@
     "signingIn": "Iniciando sesión...",
     "noAccount": "¿No tienes una cuenta?",
     "signUp": "Registrarse"
+  },
+  "signup": {
+    "title": "Crea tu cuenta",
+    "subtitle": "Únete a ofblog hoy",
+    "username": "Nombre de usuario",
+    "usernamePlaceholder": "Elige un nombre de usuario",
+    "email": "Dirección de correo electrónico",
+    "emailPlaceholder": "Introduce tu correo electrónico",
+    "password": "Contraseña",
+    "passwordPlaceholder": "Crea una contraseña",
+    "firstName": "Nombre",
+    "firstNamePlaceholder": "Introduce tu nombre",
+    "lastName": "Apellido",
+    "lastNamePlaceholder": "Introduce tu apellido",
+    "bio": "Biografía (opcional)",
+    "bioPlaceholder": "Cuéntanos sobre ti",
+    "signUp": "Registrarse",
+    "signingUp": "Creando cuenta...",
+    "haveAccount": "¿Ya tienes una cuenta?",
+    "signIn": "Iniciar sesión"
   },
   "userAvatar": {
     "profile": "Perfil",

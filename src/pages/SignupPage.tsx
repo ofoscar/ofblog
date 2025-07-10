@@ -3,13 +3,17 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { useAppTranslation } from '../hooks/useAppTranslation';
 
-const LoginPage = () => {
+const SignupPage = () => {
   const { t } = useAppTranslation();
   const navigate = useNavigate();
-  const { login, isAuthenticated } = useAuth();
+  const { register, isAuthenticated } = useAuth();
   const [formData, setFormData] = useState({
+    username: '',
     email: '',
     password: '',
+    firstName: '',
+    lastName: '',
+    bio: '',
   });
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -21,7 +25,9 @@ const LoginPage = () => {
     }
   }, [isAuthenticated, navigate]);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
@@ -35,16 +41,16 @@ const LoginPage = () => {
     setError(null);
 
     try {
-      const result = await login(formData.email, formData.password);
+      const result = await register(formData);
 
       if (result.success) {
-        // On successful login, redirect to main page
+        // On successful registration, redirect to main page
         navigate('/');
       } else {
-        setError(result.message || 'Login failed');
+        setError(result.message || 'Registration failed');
       }
     } catch (error) {
-      console.error('Login failed:', error);
+      console.error('Registration failed:', error);
       setError('An unexpected error occurred. Please try again.');
     } finally {
       setIsLoading(false);
@@ -70,20 +76,87 @@ const LoginPage = () => {
             </svg>
           </div>
           <h2 className='mt-6 text-center text-3xl font-extrabold text-gray-900'>
-            {t('login.title')}
+            {t('signup.title')}
           </h2>
           <p className='mt-2 text-center text-sm text-gray-600'>
-            {t('login.subtitle')}
+            {t('signup.subtitle')}
           </p>
         </div>
         <div className='bg-white/80 backdrop-blur-sm rounded-lg shadow-xl p-8'>
           <form className='space-y-6' onSubmit={handleSubmit}>
+            <div className='grid grid-cols-2 gap-4'>
+              <div>
+                <label
+                  htmlFor='firstName'
+                  className='block text-sm font-medium text-gray-700'
+                >
+                  {t('signup.firstName')}
+                </label>
+                <div className='mt-1'>
+                  <input
+                    id='firstName'
+                    name='firstName'
+                    type='text'
+                    autoComplete='given-name'
+                    required
+                    value={formData.firstName}
+                    onChange={handleInputChange}
+                    className='appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm'
+                    placeholder={t('signup.firstNamePlaceholder')}
+                  />
+                </div>
+              </div>
+              <div>
+                <label
+                  htmlFor='lastName'
+                  className='block text-sm font-medium text-gray-700'
+                >
+                  {t('signup.lastName')}
+                </label>
+                <div className='mt-1'>
+                  <input
+                    id='lastName'
+                    name='lastName'
+                    type='text'
+                    autoComplete='family-name'
+                    required
+                    value={formData.lastName}
+                    onChange={handleInputChange}
+                    className='appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm'
+                    placeholder={t('signup.lastNamePlaceholder')}
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <label
+                htmlFor='username'
+                className='block text-sm font-medium text-gray-700'
+              >
+                {t('signup.username')}
+              </label>
+              <div className='mt-1'>
+                <input
+                  id='username'
+                  name='username'
+                  type='text'
+                  autoComplete='username'
+                  required
+                  value={formData.username}
+                  onChange={handleInputChange}
+                  className='appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm'
+                  placeholder={t('signup.usernamePlaceholder')}
+                />
+              </div>
+            </div>
+
             <div>
               <label
                 htmlFor='email'
                 className='block text-sm font-medium text-gray-700'
               >
-                {t('login.email')}
+                {t('signup.email')}
               </label>
               <div className='mt-1'>
                 <input
@@ -95,55 +168,50 @@ const LoginPage = () => {
                   value={formData.email}
                   onChange={handleInputChange}
                   className='appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm'
-                  placeholder={t('login.emailPlaceholder')}
+                  placeholder={t('signup.emailPlaceholder')}
                 />
               </div>
             </div>
+
             <div>
               <label
                 htmlFor='password'
                 className='block text-sm font-medium text-gray-700'
               >
-                {t('login.password')}
+                {t('signup.password')}
               </label>
               <div className='mt-1'>
                 <input
                   id='password'
                   name='password'
                   type='password'
-                  autoComplete='current-password'
+                  autoComplete='new-password'
                   required
                   value={formData.password}
                   onChange={handleInputChange}
                   className='appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm'
-                  placeholder={t('login.passwordPlaceholder')}
+                  placeholder={t('signup.passwordPlaceholder')}
                 />
               </div>
             </div>
 
-            <div className='flex items-center justify-between'>
-              <div className='flex items-center'>
-                <input
-                  id='remember-me'
-                  name='remember-me'
-                  type='checkbox'
-                  className='h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded'
+            <div>
+              <label
+                htmlFor='bio'
+                className='block text-sm font-medium text-gray-700'
+              >
+                {t('signup.bio')}
+              </label>
+              <div className='mt-1'>
+                <textarea
+                  id='bio'
+                  name='bio'
+                  rows={3}
+                  value={formData.bio}
+                  onChange={handleInputChange}
+                  className='appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm resize-none'
+                  placeholder={t('signup.bioPlaceholder')}
                 />
-                <label
-                  htmlFor='remember-me'
-                  className='ml-2 block text-sm text-gray-900'
-                >
-                  {t('login.rememberMe')}
-                </label>
-              </div>
-
-              <div className='text-sm'>
-                <a
-                  href='#'
-                  className='font-medium text-blue-600 hover:text-blue-500'
-                >
-                  {t('login.forgotPassword')}
-                </a>
               </div>
             </div>
 
@@ -181,22 +249,22 @@ const LoginPage = () => {
                         d='M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z'
                       ></path>
                     </svg>
-                    {t('login.signingIn')}
+                    {t('signup.signingUp')}
                   </div>
                 ) : (
-                  t('login.signIn')
+                  t('signup.signUp')
                 )}
               </button>
             </div>
 
             <div className='text-center'>
               <span className='text-sm text-gray-600'>
-                {t('login.noAccount')}{' '}
+                {t('signup.haveAccount')}{' '}
                 <Link
-                  to='/signup'
+                  to='/login'
                   className='font-medium text-blue-600 hover:text-blue-500'
                 >
-                  {t('login.signUp')}
+                  {t('signup.signIn')}
                 </Link>
               </span>
             </div>
@@ -207,4 +275,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default SignupPage;

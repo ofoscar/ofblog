@@ -7,12 +7,7 @@ import UserAvatar from './UserAvatar';
 const AppBar = () => {
   const navigate = useNavigate();
   const { t } = useAppTranslation();
-  const { isAuthenticated, logout } = useAuth();
-
-  const handleLogout = async () => {
-    await logout();
-    navigate('/');
-  };
+  const { isAuthenticated } = useAuth();
 
   return (
     <nav className='bg-white shadow-lg'>
@@ -43,31 +38,26 @@ const AppBar = () => {
           <div className='flex items-center space-x-8'>
             <div className='flex space-x-8'>
               <Link
-                to='/main'
-                className='text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors'
-              >
-                {t('appbar.main')}
-              </Link>
-              <Link
                 to='/posts'
                 className='text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors'
               >
                 {t('appbar.posts')}
               </Link>
-              {!isAuthenticated ? (
-                <Link
-                  to='/login'
-                  className='text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors'
-                >
-                  {t('appbar.login')}
-                </Link>
-              ) : (
-                <button
-                  onClick={handleLogout}
-                  className='text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors'
-                >
-                  {t('appbar.logout')}
-                </button>
+              {!isAuthenticated && (
+                <>
+                  <Link
+                    to='/login'
+                    className='text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors'
+                  >
+                    {t('appbar.login')}
+                  </Link>
+                  <Link
+                    to='/signup'
+                    className='bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded-md text-sm font-medium transition-colors'
+                  >
+                    {t('appbar.signup')}
+                  </Link>
+                </>
               )}
             </div>
             <LanguageSwitcher />

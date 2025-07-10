@@ -18,6 +18,14 @@ interface AuthContextType {
     email: string,
     password: string,
   ) => Promise<{ success: boolean; message?: string }>;
+  register: (userData: {
+    username: string;
+    email: string;
+    password: string;
+    firstName: string;
+    lastName: string;
+    bio?: string;
+  }) => Promise<{ success: boolean; message?: string }>;
   logout: () => Promise<void>;
 }
 
@@ -86,6 +94,38 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     }
   };
 
+  const register = async (userData: {
+    username: string;
+    email: string;
+    password: string;
+    firstName: string;
+    lastName: string;
+    bio?: string;
+  }) => {
+    try {
+      const data = await apiService.register(userData);
+
+      if (data.success) {
+        setToken(data.token);
+        setUser(data.user);
+
+        // Store in localStorage
+        localStorage.setItem('authToken', data.token);
+        localStorage.setItem('authUser', JSON.stringify(data.user));
+
+        return { success: true };
+      } else {
+        return { success: false, message: data.message };
+      }
+    } catch (error) {
+      console.error('Registration error:', error);
+      return {
+        success: false,
+        message: 'Network error. Please check your connection and try again.',
+      };
+    }
+  };
+
   const logout = async () => {
     try {
       if (token) {
@@ -110,6 +150,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     isAuthenticated,
     isLoading,
     login,
+    register,
     logout,
   };
 

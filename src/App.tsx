@@ -7,6 +7,7 @@ import './i18n/config';
 import LoginPage from './pages/LoginPage';
 import MainPage from './pages/MainPage';
 import PostsPage from './pages/PostsPage';
+import SignupPage from './pages/SignupPage';
 
 function App() {
   return (
@@ -17,9 +18,9 @@ function App() {
           <main className='flex-1'>
             <Routes>
               <Route path='/' element={<MainPage />} />
-              <Route path='/main' element={<MainPage />} />
               <Route path='/posts' element={<PostsPage />} />
               <Route path='/login' element={<LoginPage />} />
+              <Route path='/signup' element={<SignupPage />} />
             </Routes>
           </main>
           <Footer />

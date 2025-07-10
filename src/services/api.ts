@@ -49,6 +49,22 @@ class ApiService {
     return response.json();
   }
 
+  async register(userData: {
+    username: string;
+    email: string;
+    password: string;
+    firstName: string;
+    lastName: string;
+    bio?: string;
+  }) {
+    const response = await this.makeRequest('/api/auth/register', {
+      method: 'POST',
+      body: JSON.stringify(userData),
+    });
+
+    return response.json();
+  }
+
   async logout() {
     const response = await this.makeRequest('/api/auth/logout', {
       method: 'POST',
