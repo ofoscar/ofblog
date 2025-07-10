@@ -44,6 +44,7 @@
   "userAvatar": {
     "profile": "Profile",
     "settings": "Settings",
+    "admin": "Admin",
     "logout": "Log out"
   }
 }

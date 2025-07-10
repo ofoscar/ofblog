@@ -7,7 +7,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { LogOut, Settings, UserCircle } from 'lucide-react';
+import { LogOut, Settings, Shield, UserCircle } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import { useAppTranslation } from '../hooks/useAppTranslation';
 
@@ -70,6 +70,12 @@ const UserAvatar = () => {
           <Settings className='mr-2 h-4 w-4' />
           <span>{t('userAvatar.settings')}</span>
         </DropdownMenuItem>
+        {user?.role === 'admin' && (
+          <DropdownMenuItem className='cursor-pointer'>
+            <Shield className='mr-2 h-4 w-4' />
+            <span>{t('userAvatar.admin')}</span>
+          </DropdownMenuItem>
+        )}
         <DropdownMenuSeparator />
         <DropdownMenuItem
           className='cursor-pointer text-red-600 focus:text-red-600'
