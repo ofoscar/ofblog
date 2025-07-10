@@ -2,6 +2,49 @@
   "appbar": {
     "title": "ofblog",
     "main": "Main",
-    "posts": "Posts"
+    "posts": "Posts",
+    "login": "Login",
+    "signup": "Sign Up",
+    "logout": "Logout"
+  },
+  "login": {
+    "title": "Sign in to your account",
+    "subtitle": "Welcome back to ofblog",
+    "email": "Email address",
+    "emailPlaceholder": "Enter your email",
+    "password": "Password",
+    "passwordPlaceholder": "Enter your password",
+    "rememberMe": "Remember me",
+    "forgotPassword": "Forgot your password?",
+    "signIn": "Sign in",
+    "signingIn": "Signing in...",
+    "noAccount": "Don't have an account?",
+    "signUp": "Sign up"
+  },
+  "signup": {
+    "title": "Create your account",
+    "subtitle": "Join ofblog today",
+    "username": "Username",
+    "usernamePlaceholder": "Choose a username",
+    "email": "Email address",
+    "emailPlaceholder": "Enter your email",
+    "password": "Password",
+    "passwordPlaceholder": "Create a password",
+    "firstName": "First Name",
+    "firstNamePlaceholder": "Enter your first name",
+    "lastName": "Last Name",
+    "lastNamePlaceholder": "Enter your last name",
+    "bio": "Bio (optional)",
+    "bioPlaceholder": "Tell us about yourself",
+    "signUp": "Sign up",
+    "signingUp": "Creating account...",
+    "haveAccount": "Already have an account?",
+    "signIn": "Sign in"
+  },
+  "userAvatar": {
+    "profile": "Profile",
+    "settings": "Settings",
+    "admin": "Admin",
+    "logout": "Log out"
   }
 }
