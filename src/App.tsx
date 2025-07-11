@@ -9,6 +9,7 @@ import AddPostPage from './pages/AddPostPage';
 import { AdminPage } from './pages/AdminPage';
 import LoginPage from './pages/LoginPage';
 import MainPage from './pages/MainPage';
+import PostPage from './pages/PostPage';
 import PostsPage from './pages/PostsPage';
 import SignupPage from './pages/SignupPage';
 
@@ -22,6 +23,7 @@ function App() {
             <Routes>
               <Route path='/' element={<MainPage />} />
               <Route path='/posts' element={<PostsPage />} />
+              <Route path='/post/:slug' element={<PostPage />} />
               <Route path='/login' element={<LoginPage />} />
               <Route path='/signup' element={<SignupPage />} />
               <Route

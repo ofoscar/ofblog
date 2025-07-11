@@ -1,59 +1,111 @@
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
+import { apiService } from '../services/api';
 import { theme } from '../theme';
+import type { Post as ApiPost, PostsResponse } from '../types/post';
 
 function RecentPostsSection() {
   const { t } = useTranslation();
+  const navigate = useNavigate();
+  const [posts, setPosts] = useState<ApiPost[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  const posts = [
-    {
-      id: 1,
-      key: 'webdev',
-      image:
-        'https://images.unsplash.com/photo-1517180102446-f3ece451e9d8?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-      date: 'July 2, 2025',
-      readTime: '5',
-    },
-    {
-      id: 2,
-      key: 'react',
-      image:
-        'https://images.unsplash.com/photo-1633356122544-f134324a6cee?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-      date: 'June 28, 2025',
-      readTime: '8',
-    },
-    {
-      id: 3,
-      key: 'typescript',
-      image:
-        'https://images.unsplash.com/photo-1516116216624-53e697fedbea?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-      date: 'June 25, 2025',
-      readTime: '6',
-    },
-    {
-      id: 4,
-      key: 'ui',
-      image:
-        'https://images.unsplash.com/photo-1561070791-2526d30994b5?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-      date: 'June 22, 2025',
-      readTime: '7',
-    },
-    {
-      id: 5,
-      key: 'devops',
-      image:
-        'https://images.unsplash.com/photo-1518432031352-d6fc5c10da5a?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-      date: 'June 18, 2025',
-      readTime: '9',
-    },
-    {
-      id: 6,
-      key: 'performance',
-      image:
-        'https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-      date: 'June 15, 2025',
-      readTime: '10',
-    },
-  ];
+  const fetchRecentPosts = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+
+      const params = {
+        page: 1,
+        limit: 6,
+        sort: '-createdAt',
+        status: 'published',
+      };
+
+      const response: PostsResponse = await apiService.getPosts(params);
+
+      if (response.success) {
+        setPosts(response.data.posts);
+      } else {
+        setError('Failed to fetch posts');
+      }
+    } catch (err) {
+      setError('Error loading posts');
+      console.error('Error fetching recent posts:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchRecentPosts();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className='w-full px-4 mt-16'>
+        <div className='max-w-[1280px] mx-auto'>
+          <div className='text-center mb-12'>
+            <h2
+              className='text-3xl font-bold mb-4'
+              style={{
+                color: theme.colors.text.primary,
+                fontFamily: theme.typography.fontFamily.sans.join(', '),
+              }}
+            >
+              {t('blog.title')}
+            </h2>
+            <p
+              className='text-lg'
+              style={{
+                color: theme.colors.text.secondary,
+                fontFamily: theme.typography.fontFamily.sans.join(', '),
+              }}
+            >
+              {t('blog.subtitle')}
+            </p>
+          </div>
+          <div className='flex items-center justify-center h-64'>
+            <div className='animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600'></div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className='w-full px-4 mt-16'>
+        <div className='max-w-[1280px] mx-auto'>
+          <div className='text-center mb-12'>
+            <h2
+              className='text-3xl font-bold mb-4'
+              style={{
+                color: theme.colors.text.primary,
+                fontFamily: theme.typography.fontFamily.sans.join(', '),
+              }}
+            >
+              {t('blog.title')}
+            </h2>
+            <p
+              className='text-lg'
+              style={{
+                color: theme.colors.text.secondary,
+                fontFamily: theme.typography.fontFamily.sans.join(', '),
+              }}
+            >
+              {t('blog.subtitle')}
+            </p>
+          </div>
+          <div className='text-center text-red-600'>
+            <p>{error}</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className='w-full px-4 mt-16'>
@@ -82,7 +134,7 @@ function RecentPostsSection() {
         {/* Grid with 3 columns, 2 rows, 40px gap */}
         <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10'>
           {posts.map((post) => (
-            <PostCard key={post.id} post={post} />
+            <ApiPostCard key={post._id} post={post} onNavigate={navigate} />
           ))}
         </div>
       </div>
@@ -92,6 +144,116 @@ function RecentPostsSection() {
 
 export default RecentPostsSection;
 
+interface ApiPostCardProps {
+  post: ApiPost;
+  onNavigate: (path: string) => void;
+}
+
+export const ApiPostCard = ({ post, onNavigate }: ApiPostCardProps) => {
+  const { t } = useTranslation();
+
+  const handleClick = () => {
+    onNavigate(`/post/${post.slug}`);
+  };
+
+  const formatDate = (dateString: string) => {
+    return new Date(dateString).toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+    });
+  };
+
+  return (
+    <div
+      className='cursor-pointer group flex flex-col gap-4'
+      onClick={handleClick}
+    >
+      {/* Post Image */}
+      <div
+        className='w-full h-[250px] overflow-hidden relative'
+        style={{ borderRadius: '12px' }}
+      >
+        {post.featuredImage ? (
+          <img
+            src={post.featuredImage}
+            alt={post.title}
+            className='w-full h-full object-cover transition-transform duration-300 group-hover:scale-105'
+          />
+        ) : (
+          <div className='w-full h-full bg-gray-200 flex items-center justify-center transition-transform duration-300 group-hover:scale-105'>
+            <span className='text-gray-400 text-sm'>No Image</span>
+          </div>
+        )}
+        {/* Tag overlay */}
+        {post.category && (
+          <div
+            className='absolute bottom-3 left-3 px-3 py-1 text-sm font-medium text-white rounded-full'
+            style={{
+              backgroundColor: 'rgba(0, 0, 0, 0.05)',
+              backdropFilter: 'blur(12px)',
+              border: '1px solid rgba(0, 0, 0, 0.08)',
+              boxShadow:
+                'inset 0px -1px 2px rgba(0, 0, 0, 0.1), inset 0px 1px 2px rgba(255, 255, 255, 0.8)',
+              transition: 'all 0.2s ease-in-out',
+            }}
+          >
+            {post.category}
+          </div>
+        )}
+      </div>
+
+      {/* Post Content */}
+      <div className='rounded-lg transition-all duration-300'>
+        {/* Meta Information */}
+        <div className='flex items-center justify-between mb-3'>
+          <span
+            className='text-sm'
+            style={{
+              color: theme.colors.text.secondary,
+              fontFamily: theme.typography.fontFamily.sans.join(', '),
+            }}
+          >
+            {formatDate(post.publishedAt || post.createdAt)}
+          </span>
+          <span
+            className='text-sm'
+            style={{
+              color: theme.colors.text.secondary,
+              fontFamily: theme.typography.fontFamily.sans.join(', '),
+            }}
+          >
+            {`${post.readingTime} ${t('blog.readTime')}`}
+          </span>
+        </div>
+
+        {/* Post Title */}
+        <h3
+          className='text-xl font-semibold mb-3 group-hover:text-blue-600 transition-colors duration-200'
+          style={{
+            color: theme.colors.text.primary,
+            fontFamily: theme.typography.fontFamily.sans.join(', '),
+          }}
+        >
+          {post.title}
+        </h3>
+
+        {/* Post Excerpt */}
+        <p
+          className='text-base leading-relaxed mb-4'
+          style={{
+            color: theme.colors.text.secondary,
+            fontFamily: theme.typography.fontFamily.sans.join(', '),
+          }}
+        >
+          {post.excerpt || post.content.substring(0, 150) + '...'}
+        </p>
+      </div>
+    </div>
+  );
+};
+
+// Legacy interfaces and components for backward compatibility
 interface Post {
   id: number;
   key: string;
@@ -99,14 +261,26 @@ interface Post {
   date: string;
   readTime: string;
 }
+
 interface PostCardProps {
   post: Post;
+  onNavigate: (path: string) => void;
 }
 
-export const PostCard = ({ post }: PostCardProps) => {
+export const PostCard = ({ post, onNavigate }: PostCardProps) => {
   const { t } = useTranslation();
+
+  const handleClick = () => {
+    // For demo purposes, we'll use the post key as slug
+    onNavigate(`/post/${post.key}`);
+  };
+
   return (
-    <div key={post.id} className='cursor-pointer group flex flex-col gap-4'>
+    <div
+      key={post.id}
+      className='cursor-pointer group flex flex-col gap-4'
+      onClick={handleClick}
+    >
       {/* Post Image */}
       <div
         className='w-full h-[250px]  overflow-hidden relative'

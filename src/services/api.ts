@@ -100,6 +100,11 @@ class ApiService {
     return response.json();
   }
 
+  async getPostBySlug(slug: string) {
+    const response = await this.makeRequest(`/api/posts/slug/${slug}`);
+    return response.json();
+  }
+
   async updatePostStatus(postId: string, status: string) {
     const response = await this.makeRequest(`/api/posts/${postId}`, {
       method: 'PATCH',
