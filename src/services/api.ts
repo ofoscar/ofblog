@@ -74,6 +74,25 @@ class ApiService {
   }
 
   // Posts API methods
+  async createPost(postData: {
+    title: string;
+    content: string;
+    excerpt?: string;
+    featuredImage?: string;
+    tags?: string[];
+    category?: string;
+    status?: 'draft' | 'published';
+    metaTitle?: string;
+    metaDescription?: string;
+  }) {
+    const response = await this.makeRequest('/api/posts', {
+      method: 'POST',
+      body: JSON.stringify(postData),
+    });
+
+    return response.json();
+  }
+
   async getPosts(params?: {
     page?: number;
     limit?: number;
@@ -97,6 +116,33 @@ class ApiService {
     const response = await this.makeRequest(
       `/api/posts?${queryParams.toString()}`,
     );
+    return response.json();
+  }
+
+  async getPostById(postId: string) {
+    const response = await this.makeRequest(`/api/posts/${postId}`);
+    return response.json();
+  }
+
+  async updatePost(
+    postId: string,
+    postData: {
+      title?: string;
+      content?: string;
+      excerpt?: string;
+      featuredImage?: string;
+      tags?: string[];
+      category?: string;
+      status?: 'draft' | 'published' | 'archived';
+      metaTitle?: string;
+      metaDescription?: string;
+    },
+  ) {
+    const response = await this.makeRequest(`/api/posts/${postId}`, {
+      method: 'PUT',
+      body: JSON.stringify(postData),
+    });
+
     return response.json();
   }
 

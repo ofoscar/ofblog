@@ -1,4 +1,5 @@
 import { Color } from '@tiptap/extension-color';
+import { Image } from '@tiptap/extension-image';
 import { Link } from '@tiptap/extension-link';
 import { TextAlign } from '@tiptap/extension-text-align';
 import { TextStyle } from '@tiptap/extension-text-style';
@@ -37,6 +38,12 @@ const TipTapViewer = ({ content, className = '' }: TipTapViewerProps) => {
       TextStyle,
       Color,
       Underline,
+      Image.configure({
+        HTMLAttributes: {
+          class: 'max-w-full h-auto rounded-lg shadow-md my-6 mx-auto block',
+        },
+        allowBase64: true,
+      }),
     ],
     content,
     editable: false,

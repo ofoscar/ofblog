@@ -1,18 +1,62 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import TipTapEditor from '../components/TipTapEditor';
 import { apiService } from '../services/api';
+import type { Post } from '../types/post';
 
-const AddPostPage = () => {
+const EditPostPage = () => {
+  const { postId } = useParams<{ postId: string }>();
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [excerpt, setExcerpt] = useState('');
   const [category, setCategory] = useState('');
   const [tags, setTags] = useState('');
   const [featuredImage, setFeaturedImage] = useState('');
-  const [status, setStatus] = useState<'draft' | 'published'>('draft');
+  const [status, setStatus] = useState<'draft' | 'published' | 'archived'>(
+    'draft',
+  );
   const [isSaving, setIsSaving] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
+
+  // Load post data when component mounts
+  useEffect(() => {
+    const loadPost = async () => {
+      if (!postId) {
+        setError('Post ID is required');
+        setIsLoading(false);
+        return;
+      }
+
+      try {
+        setIsLoading(true);
+        setError(null);
+
+        const response = await apiService.getPostById(postId);
+
+        if (response.success) {
+          const post: Post = response.data.post;
+          setTitle(post.title);
+          setContent(post.content);
+          setExcerpt(post.excerpt || '');
+          setCategory(post.category || '');
+          setTags(post.tags.join(', '));
+          setFeaturedImage(post.featuredImage || '');
+          setStatus(post.status);
+        } else {
+          setError(response.message || 'Failed to load post');
+        }
+      } catch (err) {
+        console.error('Error loading post:', err);
+        setError('Failed to load post. Please try again.');
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    loadPost();
+  }, [postId]);
 
   const handleSave = async () => {
     if (!title.trim()) {
@@ -22,6 +66,11 @@ const AddPostPage = () => {
 
     if (!content.trim()) {
       alert('Please add some content to your post');
+      return;
+    }
+
+    if (!postId) {
+      alert('Post ID is missing');
       return;
     }
 
@@ -37,18 +86,18 @@ const AddPostPage = () => {
         status,
       };
 
-      const response = await apiService.createPost(postData);
+      const response = await apiService.updatePost(postId, postData);
 
       if (response.success) {
-        alert('Post created successfully!');
+        alert('Post updated successfully!');
         navigate('/admin');
       } else {
-        throw new Error(response.message || 'Failed to create post');
+        throw new Error(response.message || 'Failed to update post');
       }
     } catch (error) {
-      console.error('Error saving post:', error);
+      console.error('Error updating post:', error);
       alert(
-        `Failed to save post: ${
+        `Failed to update post: ${
           error instanceof Error ? error.message : 'Unknown error'
         }`,
       );
@@ -59,24 +108,49 @@ const AddPostPage = () => {
 
   const handleCancel = () => {
     if (
-      title.trim() ||
-      content.trim() ||
-      excerpt.trim() ||
-      category.trim() ||
-      tags.trim() ||
-      featuredImage.trim()
+      window.confirm(
+        'Are you sure you want to cancel? Any unsaved changes will be lost.',
+      )
     ) {
-      if (
-        window.confirm(
-          'You have unsaved changes. Are you sure you want to leave?',
-        )
-      ) {
-        navigate('/admin');
-      }
-    } else {
       navigate('/admin');
     }
   };
+
+  if (isLoading) {
+    return (
+      <div className='min-h-screen bg-gray-50 py-8'>
+        <div className='max-w-4xl mx-auto px-4 sm:px-6 lg:px-8'>
+          <div className='bg-white rounded-lg shadow-sm border border-gray-200 p-6'>
+            <div className='flex items-center justify-center h-64'>
+              <div className='animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600'></div>
+              <span className='ml-3 text-gray-600'>Loading post...</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className='min-h-screen bg-gray-50 py-8'>
+        <div className='max-w-4xl mx-auto px-4 sm:px-6 lg:px-8'>
+          <div className='bg-white rounded-lg shadow-sm border border-gray-200 p-6'>
+            <div className='text-center'>
+              <div className='text-red-600 text-lg font-medium mb-2'>Error</div>
+              <p className='text-gray-600 mb-4'>{error}</p>
+              <button
+                onClick={() => navigate('/admin')}
+                className='px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md text-sm font-medium transition-colors'
+              >
+                Back to Admin
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className='min-h-screen bg-gray-50 py-8'>
@@ -85,9 +159,7 @@ const AddPostPage = () => {
         <div className='bg-white rounded-lg shadow-sm border border-gray-200 mb-6'>
           <div className='px-6 py-4 border-b border-gray-200'>
             <div className='flex items-center justify-between'>
-              <h1 className='text-2xl font-bold text-gray-900'>
-                Create New Post
-              </h1>
+              <h1 className='text-2xl font-bold text-gray-900'>Edit Post</h1>
               <div className='flex gap-3'>
                 <button
                   onClick={handleCancel}
@@ -100,7 +172,7 @@ const AddPostPage = () => {
                   disabled={isSaving}
                   className='px-4 py-2 bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white rounded-md text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500'
                 >
-                  {isSaving ? 'Saving...' : 'Save Post'}
+                  {isSaving ? 'Updating...' : 'Update Post'}
                 </button>
               </div>
             </div>
@@ -157,12 +229,15 @@ const AddPostPage = () => {
                   id='status'
                   value={status}
                   onChange={(e) =>
-                    setStatus(e.target.value as 'draft' | 'published')
+                    setStatus(
+                      e.target.value as 'draft' | 'published' | 'archived',
+                    )
                   }
                   className='w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent'
                 >
                   <option value='draft'>Draft</option>
                   <option value='published'>Published</option>
+                  <option value='archived'>Archived</option>
                 </select>
               </div>
             </div>
@@ -262,4 +337,4 @@ const AddPostPage = () => {
   );
 };
 
-export default AddPostPage;
+export default EditPostPage;
