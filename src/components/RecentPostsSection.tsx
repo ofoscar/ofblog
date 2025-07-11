@@ -55,7 +55,7 @@ function RecentPostsSection() {
                 fontFamily: theme.typography.fontFamily.sans.join(', '),
               }}
             >
-              {t('blog.title')}
+              {t('recentPosts.title')}
             </h2>
             <p
               className='text-lg'
@@ -64,7 +64,7 @@ function RecentPostsSection() {
                 fontFamily: theme.typography.fontFamily.sans.join(', '),
               }}
             >
-              {t('blog.subtitle')}
+              {t('recentPosts.subtitle')}
             </p>
           </div>
           <div className='flex items-center justify-center h-64'>
@@ -87,7 +87,7 @@ function RecentPostsSection() {
                 fontFamily: theme.typography.fontFamily.sans.join(', '),
               }}
             >
-              {t('blog.title')}
+              {t('recentPosts.title')}
             </h2>
             <p
               className='text-lg'
@@ -96,7 +96,7 @@ function RecentPostsSection() {
                 fontFamily: theme.typography.fontFamily.sans.join(', '),
               }}
             >
-              {t('blog.subtitle')}
+              {t('recentPosts.subtitle')}
             </p>
           </div>
           <div className='text-center text-red-600'>
@@ -118,7 +118,7 @@ function RecentPostsSection() {
               fontFamily: theme.typography.fontFamily.sans.join(', '),
             }}
           >
-            {t('blog.title')}
+            {t('recentPosts.title')}
           </h2>
           <p
             className='text-lg'
@@ -127,7 +127,7 @@ function RecentPostsSection() {
               fontFamily: theme.typography.fontFamily.sans.join(', '),
             }}
           >
-            {t('blog.subtitle')}
+            {t('recentPosts.subtitle')}
           </p>
         </div>
 
@@ -223,7 +223,7 @@ export const ApiPostCard = ({ post, onNavigate }: ApiPostCardProps) => {
               fontFamily: theme.typography.fontFamily.sans.join(', '),
             }}
           >
-            {`${post.readingTime} ${t('blog.readTime')}`}
+            <ReturnReadingTime minutes={post.readingTime} />
           </span>
         </div>
 
@@ -251,6 +251,12 @@ export const ApiPostCard = ({ post, onNavigate }: ApiPostCardProps) => {
       </div>
     </div>
   );
+};
+
+export const ReturnReadingTime = ({ minutes }: { minutes: number }) => {
+  if (minutes < 1) return 'Less than a min read';
+  if (minutes === 1) return '1 min read';
+  return `${minutes} min read`;
 };
 
 // Legacy interfaces and components for backward compatibility

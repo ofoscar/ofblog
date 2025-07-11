@@ -1,4 +1,5 @@
 import { Color } from '@tiptap/extension-color';
+import { Image } from '@tiptap/extension-image';
 import { Link } from '@tiptap/extension-link';
 import { ListItem } from '@tiptap/extension-list-item';
 import { Placeholder } from '@tiptap/extension-placeholder';
@@ -13,6 +14,7 @@ import {
   AlignRight,
   Bold,
   Code,
+  Image as ImageIcon,
   Italic,
   Link as LinkIcon,
   List,
@@ -63,6 +65,14 @@ const TipTapEditor = ({
           class: 'text-blue-600 underline hover:text-blue-800',
         },
       }),
+      Image.configure({
+        HTMLAttributes: {
+          class:
+            'max-w-full h-auto rounded-lg shadow-sm my-4 mx-auto block cursor-pointer',
+        },
+        allowBase64: true,
+        inline: false,
+      }),
     ],
     content,
     onUpdate: ({ editor }) => {
@@ -73,6 +83,48 @@ const TipTapEditor = ({
         class:
           'prose prose-sm sm:prose lg:prose-lg xl:prose-2xl mx-auto focus:outline-none min-h-[400px] px-6 py-4',
         'data-placeholder': placeholder,
+      },
+      handleDrop: (view, event, slice, moved) => {
+        if (
+          !moved &&
+          event.dataTransfer &&
+          event.dataTransfer.files &&
+          event.dataTransfer.files[0]
+        ) {
+          const file = event.dataTransfer.files[0];
+          if (file.type.startsWith('image/')) {
+            // Check file size (max 5MB)
+            if (file.size > 5 * 1024 * 1024) {
+              alert(
+                'File size too large. Please choose an image smaller than 5MB.',
+              );
+              return true;
+            }
+
+            const reader = new FileReader();
+            reader.onload = (e) => {
+              const src = e.target?.result as string;
+              const { tr } = view.state;
+              const pos = view.posAtCoords({
+                left: event.clientX,
+                top: event.clientY,
+              });
+              if (pos) {
+                tr.insert(
+                  pos.pos,
+                  view.state.schema.nodes.image.create({ src, alt: file.name }),
+                );
+                view.dispatch(tr);
+              }
+            };
+            reader.onerror = () => {
+              alert('Error reading file. Please try again.');
+            };
+            reader.readAsDataURL(file);
+            return true;
+          }
+        }
+        return false;
       },
     },
   });
@@ -96,6 +148,60 @@ const TipTapEditor = ({
 
     // update link
     editor.chain().focus().extendMarkRange('link').setLink({ href: url }).run();
+  }, [editor]);
+
+  const addImage = useCallback(() => {
+    if (!editor) return;
+
+    const choice = window.confirm(
+      'Do you want to add an image from URL? Click OK for URL, Cancel for file upload.',
+    );
+
+    if (choice) {
+      // URL input
+      const url = window.prompt('Enter image URL');
+      if (url) {
+        // Basic URL validation
+        try {
+          new URL(url);
+          const alt = window.prompt('Enter alt text (optional)', '') || '';
+          editor.chain().focus().setImage({ src: url, alt }).run();
+        } catch (e) {
+          alert('Please enter a valid URL');
+        }
+      }
+    } else {
+      // File upload
+      const input = document.createElement('input');
+      input.type = 'file';
+      input.accept = 'image/*';
+      input.onchange = (e) => {
+        const file = (e.target as HTMLInputElement).files?.[0];
+        if (file) {
+          // Check file size (max 5MB)
+          if (file.size > 5 * 1024 * 1024) {
+            alert(
+              'File size too large. Please choose an image smaller than 5MB.',
+            );
+            return;
+          }
+
+          const reader = new FileReader();
+          reader.onload = (e) => {
+            const src = e.target?.result as string;
+            const alt =
+              window.prompt('Enter alt text (optional)', file.name) ||
+              file.name;
+            editor.chain().focus().setImage({ src, alt }).run();
+          };
+          reader.onerror = () => {
+            alert('Error reading file. Please try again.');
+          };
+          reader.readAsDataURL(file);
+        }
+      };
+      input.click();
+    }
   }, [editor]);
 
   if (!editor) {
@@ -255,7 +361,7 @@ const TipTapEditor = ({
           </button>
         </div>
 
-        {/* Link */}
+        {/* Link and Image */}
         <div className='flex border-r border-gray-300 pr-2 mr-2'>
           <button
             onClick={setLink}
@@ -265,6 +371,13 @@ const TipTapEditor = ({
             title='Add Link'
           >
             <LinkIcon className='w-4 h-4' />
+          </button>
+          <button
+            onClick={addImage}
+            className='p-2 rounded hover:bg-gray-200'
+            title='Add Image'
+          >
+            <ImageIcon className='w-4 h-4' />
           </button>
         </div>
 

@@ -72,6 +72,8 @@ const PostPage = () => {
         content: `<h1>Web Development Best Practices</h1>
         <p>In this comprehensive guide, we'll explore the essential best practices that every web developer should follow to create maintainable, scalable, and performant web applications.</p>
         
+        <img src="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?q=80&w=1469&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Web development workspace with code on multiple monitors" />
+        
         <h2>1. Code Organization</h2>
         <p>Organizing your code properly is crucial for long-term maintainability. Here are some key principles:</p>
         <ul>
@@ -89,6 +91,8 @@ const PostPage = () => {
           <li>Use lazy loading</li>
           <li>Implement caching strategies</li>
         </ul>
+        
+        <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=1515&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Performance optimization dashboard" />
         
         <blockquote>
           <p>"The best performance optimization is to do less work." - Steve Souders</p>
