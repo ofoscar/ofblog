@@ -290,6 +290,12 @@ const PostsManagement = ({ className = '' }: PostsManagementProps) => {
                 </td>
                 <td className='px-6 py-4 text-sm font-medium space-y-2'>
                   <div className='flex flex-col gap-1'>
+                    <button
+                      onClick={() => navigate(`/admin/edit-post/${post._id}`)}
+                      className='text-xs text-blue-600 hover:text-blue-900 bg-blue-50 hover:bg-blue-100 px-2 py-1 rounded transition-colors'
+                    >
+                      Edit
+                    </button>
                     <select
                       value={post.status}
                       onChange={(e) =>

@@ -7,6 +7,7 @@ import { AuthProvider } from './contexts/AuthContext';
 import './i18n/config';
 import AddPostPage from './pages/AddPostPage';
 import { AdminPage } from './pages/AdminPage';
+import EditPostPage from './pages/EditPostPage';
 import LoginPage from './pages/LoginPage';
 import MainPage from './pages/MainPage';
 import PostPage from './pages/PostPage';
@@ -39,6 +40,14 @@ function App() {
                 element={
                   <AdminRoute>
                     <AddPostPage />
+                  </AdminRoute>
+                }
+              />
+              <Route
+                path='/admin/edit-post/:postId'
+                element={
+                  <AdminRoute>
+                    <EditPostPage />
                   </AdminRoute>
                 }
               />
