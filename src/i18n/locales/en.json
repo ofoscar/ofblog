@@ -5,7 +5,9 @@
     "posts": "Posts",
     "login": "Login",
     "signup": "Sign Up",
-    "logout": "Logout"
+    "logout": "Logout",
+    "search": "Search",
+    "searchPlaceholder": "Search posts..."
   },
   "login": {
     "title": "Sign in to your account",
@@ -52,5 +54,19 @@
     "subtitle": "Latest posts from the community",
     "viewAll": "View All",
     "noPosts": "No posts available"
+  },
+  "search": {
+    "noResults": "No posts found",
+    "searching": "Searching...",
+    "readTime": "min read"
+  },
+  "cookies": {
+    "title": "We use cookies",
+    "message": "We use cookies to enhance your browsing experience, serve personalized content, and analyze our traffic. By clicking 'Accept All', you consent to our use of cookies.",
+    "accept": "Accept All",
+    "decline": "Decline"
+  },
+  "language": {
+    "switch": "Switch language"
   }
 }

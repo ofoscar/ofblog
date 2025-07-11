@@ -5,7 +5,9 @@
     "posts": "Publicaciones",
     "login": "Iniciar sesión",
     "signup": "Registrarse",
-    "logout": "Cerrar sesión"
+    "logout": "Cerrar sesión",
+    "search": "Buscar",
+    "searchPlaceholder": "Buscar publicaciones..."
   },
   "login": {
     "title": "Inicia sesión en tu cuenta",
@@ -46,5 +48,25 @@
     "settings": "Configuración",
     "admin": "Administrador",
     "logout": "Cerrar sesión"
+  },
+  "recentPosts": {
+    "title": "Publicaciones Recientes",
+    "subtitle": "Últimas publicaciones de la comunidad",
+    "viewAll": "Ver Todo",
+    "noPosts": "No hay publicaciones disponibles"
+  },
+  "search": {
+    "noResults": "No se encontraron publicaciones",
+    "searching": "Buscando...",
+    "readTime": "min de lectura"
+  },
+  "cookies": {
+    "title": "Usamos cookies",
+    "message": "Utilizamos cookies para mejorar tu experiencia de navegación, ofrecer contenido personalizado y analizar nuestro tráfico. Al hacer clic en 'Aceptar todo', consientes nuestro uso de cookies.",
+    "accept": "Aceptar todo",
+    "decline": "Rechazar"
+  },
+  "language": {
+    "switch": "Cambiar idioma"
   }
 }

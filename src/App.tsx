@@ -2,6 +2,8 @@ import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import './App.css';
 import AdminRoute from './components/AdminRoute';
 import AppBar from './components/AppBar';
+import BottomBar from './components/BottomBar';
+import CookiesPopup from './components/CookiesPopup';
 import Footer from './components/Footer';
 import { AuthProvider } from './contexts/AuthContext';
 import './i18n/config';
@@ -54,6 +56,8 @@ function App() {
             </Routes>
           </main>
           <Footer />
+          <BottomBar />
+          <CookiesPopup />
         </div>
       </Router>
     </AuthProvider>
