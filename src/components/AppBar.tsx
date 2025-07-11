@@ -59,12 +59,12 @@ const AppBar = () => {
             </div>
             <div className='flex items-center space-x-8'>
               <div className='flex space-x-8'>
-                <Link
+                {/*  <Link
                   to='/posts'
                   className='text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors'
                 >
                   {t('appbar.posts')}
-                </Link>
+                </Link> */}
                 {!isAuthenticated && (
                   <>
                     <Link

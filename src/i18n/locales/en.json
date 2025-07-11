@@ -68,5 +68,9 @@
   },
   "language": {
     "switch": "Switch language"
+  },
+  "footer": {
+    "copyright": "© 2025 Oscar Rodriguez. All rights reserved.",
+    "builtWith": "Built with React & TypeScript"
   }
 }
