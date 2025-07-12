@@ -7,13 +7,20 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { LogOut, Settings, Shield, UserCircle } from 'lucide-react';
+import {
+  LogIn,
+  LogOut,
+  Settings,
+  Shield,
+  UserCircle,
+  UserPlus,
+} from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { useAppTranslation } from '../hooks/useAppTranslation';
 
 const UserAvatar = () => {
-  const { user, logout } = useAuth();
+  const { user, logout, isAuthenticated } = useAuth();
   const { t } = useAppTranslation();
   const navigate = useNavigate();
   const handleLogout = async () => {
@@ -46,50 +53,75 @@ const UserAvatar = () => {
           <Avatar className='h-8 w-8'>
             <AvatarImage src={user?.avatar} alt='User avatar' />
             <AvatarFallback className='bg-stone-100 text-stone-600'>
-              {getUserInitials()}
+              {isAuthenticated ? (
+                getUserInitials()
+              ) : (
+                <UserCircle className='h-4 w-4' />
+              )}
             </AvatarFallback>
           </Avatar>
         </button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className='w-56' align='end' forceMount>
-        <DropdownMenuLabel className='font-normal'>
-          <div className='flex flex-col space-y-1'>
-            <p className='text-sm font-medium leading-none'>
-              {getDisplayName()}
-            </p>
-            <p className='text-xs leading-none text-muted-foreground'>
-              {user?.email}
-            </p>
-          </div>
-        </DropdownMenuLabel>
-        <DropdownMenuSeparator />
-        <DropdownMenuItem className='cursor-pointer'>
-          <UserCircle className='mr-2 h-4 w-4' />
-          <span>{t('userAvatar.profile')}</span>
-        </DropdownMenuItem>
-        <DropdownMenuItem className='cursor-pointer'>
-          <Settings className='mr-2 h-4 w-4' />
-          <span>{t('userAvatar.settings')}</span>
-        </DropdownMenuItem>
-        {user?.role === 'admin' && (
-          <DropdownMenuItem
-            className='cursor-pointer'
-            onClick={() => {
-              navigate('/admin');
-            }}
-          >
-            <Shield className='mr-2 h-4 w-4' />
-            <span>{t('userAvatar.admin')}</span>
-          </DropdownMenuItem>
+        {isAuthenticated ? (
+          <>
+            <DropdownMenuLabel className='font-normal'>
+              <div className='flex flex-col space-y-1'>
+                <p className='text-sm font-medium leading-none'>
+                  {getDisplayName()}
+                </p>
+                <p className='text-xs leading-none text-muted-foreground'>
+                  {user?.email}
+                </p>
+              </div>
+            </DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem className='cursor-pointer'>
+              <UserCircle className='mr-2 h-4 w-4' />
+              <span>{t('userAvatar.profile')}</span>
+            </DropdownMenuItem>
+            <DropdownMenuItem className='cursor-pointer'>
+              <Settings className='mr-2 h-4 w-4' />
+              <span>{t('userAvatar.settings')}</span>
+            </DropdownMenuItem>
+            {user?.role === 'admin' && (
+              <DropdownMenuItem
+                className='cursor-pointer'
+                onClick={() => {
+                  navigate('/admin');
+                }}
+              >
+                <Shield className='mr-2 h-4 w-4' />
+                <span>{t('userAvatar.admin')}</span>
+              </DropdownMenuItem>
+            )}
+            <DropdownMenuSeparator />
+            <DropdownMenuItem
+              className='cursor-pointer text-red-600 focus:text-red-600'
+              onClick={handleLogout}
+            >
+              <LogOut className='mr-2 h-4 w-4' />
+              <span>{t('userAvatar.logout')}</span>
+            </DropdownMenuItem>
+          </>
+        ) : (
+          <>
+            <DropdownMenuItem
+              className='cursor-pointer'
+              onClick={() => navigate('/login')}
+            >
+              <LogIn className='mr-2 h-4 w-4' />
+              <span>{t('appbar.login')}</span>
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              className='cursor-pointer'
+              onClick={() => navigate('/signup')}
+            >
+              <UserPlus className='mr-2 h-4 w-4' />
+              <span>{t('appbar.signup')}</span>
+            </DropdownMenuItem>
+          </>
         )}
-        <DropdownMenuSeparator />
-        <DropdownMenuItem
-          className='cursor-pointer text-red-600 focus:text-red-600'
-          onClick={handleLogout}
-        >
-          <LogOut className='mr-2 h-4 w-4' />
-          <span>{t('userAvatar.logout')}</span>
-        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );

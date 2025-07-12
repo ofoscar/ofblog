@@ -1,14 +1,13 @@
 import { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from '../contexts/AuthContext';
+import { useNavigate } from 'react-router-dom';
 import { useAppTranslation } from '../hooks/useAppTranslation';
+import SearchButton from './SearchButton';
 import SearchComponent from './SearchComponent';
 import UserAvatar from './UserAvatar';
 
 const AppBar = () => {
   const navigate = useNavigate();
   const { t } = useAppTranslation();
-  const { isAuthenticated } = useAuth();
   const [isSearchOpen, setIsSearchOpen] = useState(false);
 
   const toggleSearch = () => {
@@ -65,48 +64,9 @@ const AppBar = () => {
                 >
                   {t('appbar.posts')}
                 </Link> */}
-                {!isAuthenticated && (
-                  <>
-                    <Link
-                      to='/login'
-                      className='text-gray-700 hover:text-blue-600 px-3 py-2 rounded-md text-sm font-medium transition-colors'
-                    >
-                      {t('appbar.login')}
-                    </Link>
-                    <Link
-                      to='/signup'
-                      className='bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded-md text-sm font-medium transition-colors'
-                    >
-                      {t('appbar.signup')}
-                    </Link>
-                  </>
-                )}
               </div>
-              {/* Search Button */}
-              <button
-                onClick={toggleSearch}
-                className='text-gray-700 hover:text-blue-600 p-2 rounded-md transition-colors flex items-center space-x-2'
-                aria-label={t('appbar.search')}
-                title={`${t('appbar.search')} (⌘K)`}
-              >
-                <svg
-                  className='h-5 w-5'
-                  fill='none'
-                  viewBox='0 0 24 24'
-                  stroke='currentColor'
-                >
-                  <path
-                    strokeLinecap='round'
-                    strokeLinejoin='round'
-                    strokeWidth={2}
-                    d='M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z'
-                  />
-                </svg>
-                <span className='hidden md:block text-xs text-gray-500 bg-gray-100 px-1.5 py-0.5 rounded border'>
-                  ⌘K
-                </span>
-              </button>
-              {isAuthenticated && <UserAvatar />}
+              <SearchButton onClick={toggleSearch} />
+              <UserAvatar />
             </div>
           </div>
         </div>
