@@ -45,7 +45,7 @@ function HeroSlide({
             {title}
           </h1>
           <p
-            className='text-xl md:text-[32px] leading-tight text-white mb-8 '
+            className='text-xl md:text-[32px] leading-tight text-[#EBE2D1] mb-8'
             style={{
               fontFamily: theme.typography.fontFamily.sans.join(', '),
               textShadow: 'none',
