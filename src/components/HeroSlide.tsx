@@ -34,7 +34,7 @@ function HeroSlide({
 
       {/* Content */}
       <div className='relative z-10 text-left w-full max-w-[1280px]'>
-        <div className='flex-col max-w-[800px] '>
+        <div className='flex-col max-w-[800px]'>
           <h1
             className='text-5xl md:text-[64px] font-bold mb-6 text-white w-full leading-none'
             style={{
@@ -45,7 +45,7 @@ function HeroSlide({
             {title}
           </h1>
           <p
-            className='text-xl md:text-[32px] leading-tight text-white mb-8'
+            className='text-xl md:text-[32px] leading-tight text-white mb-8 '
             style={{
               fontFamily: theme.typography.fontFamily.sans.join(', '),
               textShadow: 'none',
