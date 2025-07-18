@@ -45,11 +45,11 @@ function RecentPostsSection() {
 
   if (loading) {
     return (
-      <div className='w-full px-4 mt-16'>
-        <div className='max-w-[1280px] mx-auto'>
-          <div className='text-center mb-12'>
+      <div className='w-full px-4 py-16'>
+        <div className='max-w-[1280px] mx-auto flex flex-col gap-8'>
+          <div className='text-center flex flex-col gap-2'>
             <h2
-              className='text-3xl font-bold mb-4'
+              className='text-3xl font-bold'
               style={{
                 color: theme.colors.text.primary,
                 fontFamily: theme.typography.fontFamily.sans.join(', '),
@@ -67,8 +67,12 @@ function RecentPostsSection() {
               {t('recentPosts.subtitle')}
             </p>
           </div>
-          <div className='flex items-center justify-center h-64'>
-            <div className='animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600'></div>
+
+          {/* Skeleton Grid */}
+          <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10'>
+            {[...Array(6)].map((_, index) => (
+              <PostSkeleton key={index} />
+            ))}
           </div>
         </div>
       </div>
@@ -364,6 +368,45 @@ export const PostCard = ({ post, onNavigate }: PostCardProps) => {
         >
           {t(`blog.posts.${post.key}.excerpt`)}
         </p>
+      </div>
+    </div>
+  );
+};
+
+// PostSkeleton component for loading animation
+const PostSkeleton = () => {
+  return (
+    <div className='flex flex-col gap-4'>
+      {/* Image skeleton */}
+      <div
+        className='w-full h-[250px] bg-gray-200 animate-pulse relative overflow-hidden'
+        style={{ borderRadius: '12px' }}
+      >
+        <div className='absolute inset-0 bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 -translate-x-full animate-shimmer'></div>
+        {/* Tag skeleton */}
+        <div className='absolute bottom-3 left-3 w-16 h-6 bg-gray-300 rounded-full animate-pulse'></div>
+      </div>
+
+      {/* Content skeleton */}
+      <div className='flex flex-col gap-3'>
+        {/* Meta information skeleton */}
+        <div className='flex items-center justify-between'>
+          <div className='h-4 bg-gray-200 rounded w-24 animate-pulse'></div>
+          <div className='h-4 bg-gray-200 rounded w-20 animate-pulse'></div>
+        </div>
+
+        {/* Title skeleton */}
+        <div className='space-y-2'>
+          <div className='h-6 bg-gray-200 rounded w-3/4 animate-pulse'></div>
+          <div className='h-6 bg-gray-200 rounded w-1/2 animate-pulse'></div>
+        </div>
+
+        {/* Excerpt skeleton */}
+        <div className='space-y-2'>
+          <div className='h-4 bg-gray-200 rounded w-full animate-pulse'></div>
+          <div className='h-4 bg-gray-200 rounded w-5/6 animate-pulse'></div>
+          <div className='h-4 bg-gray-200 rounded w-4/5 animate-pulse'></div>
+        </div>
       </div>
     </div>
   );
