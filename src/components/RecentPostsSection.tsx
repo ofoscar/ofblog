@@ -108,11 +108,11 @@ function RecentPostsSection() {
   }
 
   return (
-    <div className='w-full px-4 mt-16'>
-      <div className='max-w-[1280px] mx-auto'>
-        <div className='text-center mb-12'>
+    <div className='w-full px-4 py-16'>
+      <div className='max-w-[1280px] mx-auto flex flex-col gap-8'>
+        <div className='text-center flex flex-col gap-2'>
           <h2
-            className='text-3xl font-bold mb-4'
+            className='text-3xl font-bold'
             style={{
               color: theme.colors.text.primary,
               fontFamily: theme.typography.fontFamily.sans.join(', '),
