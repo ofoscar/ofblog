@@ -1,22 +1,15 @@
-import {
-  ArrowLeft,
-  Calendar,
-  Clock,
-  Eye,
-  Heart,
-  MessageCircle,
-  Tag,
-} from 'lucide-react';
+import { Calendar, Clock, Eye, Heart, MessageCircle, Tag } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
+import ErrorPost from '../components/ErrorPost';
 import TipTapViewer from '../components/TipTapViewer';
+import TransparentAppBar from '../components/TransparentAppBar';
 import { apiService } from '../services/api';
 import { theme } from '../theme';
 import type { Post } from '../types/post';
 
 const PostPage = () => {
   const { slug } = useParams<{ slug: string }>();
-  const navigate = useNavigate();
   const [post, setPost] = useState<Post | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -365,173 +358,147 @@ let isActive: boolean = true;</code></pre>
   console.log('Post data:', post);
 
   if (error || !post) {
-    return (
-      <div className='min-h-screen flex items-center justify-center px-4'>
-        <div className='text-center'>
-          <h1 className='text-2xl font-bold text-gray-900 mb-4'>
-            Post Not Found
-          </h1>
-          <p className='text-gray-600 mb-6'>
-            {error || 'The post you are looking for does not exist.'}
-          </p>
-          <button
-            onClick={() => navigate('/posts')}
-            className='inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors'
-          >
-            <ArrowLeft className='w-4 h-4 mr-2' />
-            Back to Posts
-          </button>
-        </div>
-      </div>
-    );
+    return <ErrorPost error={error || undefined} />;
   }
 
   return (
     <div className='min-h-screen bg-gray-50'>
-      {/* Header with back button */}
-      <div className='bg-white border-b'>
-        <div className='max-w-4xl mx-auto px-4 py-4'>
-          <button
-            onClick={() => navigate(-1)}
-            className='inline-flex items-center text-gray-600 hover:text-gray-900 transition-colors'
-          >
-            <ArrowLeft className='w-5 h-5 mr-2' />
-            Back
-          </button>
-        </div>
-      </div>
-
-      {/* Hero section with featured image */}
-      {post.featuredImage && (
-        <div className='relative h-96 overflow-hidden'>
-          <img
-            src={post.featuredImage}
-            alt={post.title}
-            className='w-full h-full object-cover'
-          />
-          <div className='absolute inset-0 bg-black bg-opacity-30'></div>
-        </div>
-      )}
-
-      {/* Main content */}
-      <div className='max-w-4xl mx-auto px-4 py-8'>
-        <article className='bg-white rounded-lg shadow-sm overflow-hidden'>
-          {/* Header */}
-          <header className='p-8 border-b'>
-            {/* Categories/Tags */}
-            <div className='flex items-center gap-2 mb-4'>
-              {post.tags.slice(0, 3).map((tag, index) => (
-                <span
-                  key={index}
-                  className='inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800'
-                >
-                  <Tag className='w-3 h-3 mr-1' />
-                  {tag}
-                </span>
-              ))}
+      {/* Hero section with featured image as background */}
+      <div className='relative min-h-screen'>
+        {post.featuredImage && (
+          <>
+            <div className='absolute inset-0 h-96 overflow-hidden'>
+              <img
+                src={post.featuredImage}
+                alt={post.title}
+                className='w-full h-full object-cover'
+              />
+              <div className='absolute inset-0 bg-black bg-opacity-30'></div>
             </div>
-
-            {/* Title */}
-            <h1
-              className='text-4xl font-bold mb-6 leading-tight'
-              style={{
-                color: theme.colors.text.primary,
-                fontFamily: theme.typography.fontFamily.sans.join(', '),
-              }}
-            >
-              {post.title}
-            </h1>
-
-            {/* Excerpt */}
-            {post.excerpt && (
-              <p
-                className='text-xl leading-relaxed mb-6'
+          </>
+        )}
+        {/* Transparent AppBar */}
+        <TransparentAppBar />
+        {/* Main content */}
+        <div className='relative z-10 max-w-4xl mx-auto py-8'>
+          <article className='bg-white rounded-lg shadow-sm overflow-hidden mt-20'>
+            {/* Header */}
+            <header className='p-8 border-b'>
+              {/* Title */}
+              <h1
+                className='text-4xl font-bold mb-6 leading-tight'
                 style={{
-                  color: theme.colors.text.secondary,
+                  color: theme.colors.text.primary,
                   fontFamily: theme.typography.fontFamily.sans.join(', '),
                 }}
               >
-                {post.excerpt}
-              </p>
-            )}
+                {post.title}
+              </h1>
 
-            {/* Author and meta info */}
-            <div className='flex items-center justify-between pt-6 border-t'>
-              <div className='flex items-center space-x-4'>
-                <div className='w-12 h-12 rounded-full bg-blue-600 flex items-center justify-center text-white font-semibold'>
-                  {post.author.firstName[0]}
-                  {post.author.lastName[0]}
-                </div>
-                <div>
-                  <p
-                    className='font-semibold'
-                    style={{
-                      color: theme.colors.text.primary,
-                      fontFamily: theme.typography.fontFamily.sans.join(', '),
-                    }}
-                  >
-                    {post.author.firstName} {post.author.lastName}
-                  </p>
-                  <p
-                    className='text-sm'
-                    style={{
-                      color: theme.colors.text.secondary,
-                      fontFamily: theme.typography.fontFamily.sans.join(', '),
-                    }}
-                  >
-                    @{post.author.username}
-                  </p>
-                </div>
-              </div>
+              {/* Excerpt */}
+              {post.excerpt && (
+                <p
+                  className='text-xl leading-relaxed mb-6'
+                  style={{
+                    color: theme.colors.text.secondary,
+                    fontFamily: theme.typography.fontFamily.sans.join(', '),
+                  }}
+                >
+                  {post.excerpt}
+                </p>
+              )}
+            </header>
 
-              <div className='flex items-center space-x-6 text-sm text-gray-500'>
-                <div className='flex items-center'>
-                  <Calendar className='w-4 h-4 mr-1' />
-                  {formatDate(post.publishedAt || post.createdAt)}
-                </div>
-                <div className='flex items-center'>
-                  <Clock className='w-4 h-4 mr-1' />
-                  {post.readingTime} min read
-                </div>
-                <div className='flex items-center'>
-                  <Eye className='w-4 h-4 mr-1' />
-                  {post.views} views
-                </div>
-              </div>
+            {/* Content */}
+            <div className='p-8'>
+              <TipTapViewer content={post.content} />
             </div>
-          </header>
 
-          {/* Content */}
-          <div className='p-8'>
-            <TipTapViewer content={post.content} />
-          </div>
+            {/* Footer with engagement stats */}
+            <footer className='border-t'>
+              {/* Categories/Tags */}
+              <div className='flex items-center gap-2 p-4'>
+                {post.tags.slice(0, 3).map((tag, index) => (
+                  <span
+                    key={index}
+                    className='inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800'
+                  >
+                    <Tag className='w-3 h-3 mr-1' />
+                    {tag}
+                  </span>
+                ))}
+              </div>
 
-          {/* Footer with engagement stats */}
-          <footer className='p-8 border-t bg-gray-50'>
-            <div className='flex items-center justify-between'>
-              <div className='flex items-center space-x-6'>
-                <div className='flex items-center text-gray-600'>
-                  <Heart className='w-5 h-5 mr-2' />
-                  <span>{post.likeCount} likes</span>
+              {/* Author and meta info */}
+              <div className='flex items-center justify-between p-4 border-t'>
+                <div className='flex items-center space-x-4'>
+                  <div className='w-12 h-12 rounded-full bg-blue-600 flex items-center justify-center text-white font-semibold'>
+                    {post.author.firstName[0]}
+                    {post.author.lastName[0]}
+                  </div>
+                  <div>
+                    <p
+                      className='font-semibold'
+                      style={{
+                        color: theme.colors.text.primary,
+                        fontFamily: theme.typography.fontFamily.sans.join(', '),
+                      }}
+                    >
+                      {post.author.firstName} {post.author.lastName}
+                    </p>
+                    <p
+                      className='text-sm'
+                      style={{
+                        color: theme.colors.text.secondary,
+                        fontFamily: theme.typography.fontFamily.sans.join(', '),
+                      }}
+                    >
+                      @{post.author.username}
+                    </p>
+                  </div>
                 </div>
-                <div className='flex items-center text-gray-600'>
-                  <MessageCircle className='w-5 h-5 mr-2' />
-                  <span>{post.commentCount} comments</span>
+
+                <div className='flex items-center space-x-6 text-sm text-gray-500'>
+                  <div className='flex items-center'>
+                    <Calendar className='w-4 h-4 mr-1' />
+                    {formatDate(post.publishedAt || post.createdAt)}
+                  </div>
+                  <div className='flex items-center'>
+                    <Clock className='w-4 h-4 mr-1' />
+                    {post.readingTime} min read
+                  </div>
+                  <div className='flex items-center'>
+                    <Eye className='w-4 h-4 mr-1' />
+                    {post.views} views
+                  </div>
                 </div>
               </div>
 
-              {/* Category */}
-              <div className='flex items-center text-gray-600'>
-                <span className='text-sm'>Category: </span>
-                <span className='ml-1 px-2 py-1 bg-gray-200 rounded text-sm font-medium'>
-                  {post.category}
-                </span>
-              </div>
-            </div>
-          </footer>
-        </article>
+              <div className='flex items-center justify-between p-4'>
+                <div className='flex items-center space-x-6'>
+                  <div className='flex items-center text-gray-600'>
+                    <Heart className='w-5 h-5 mr-2' />
+                    <span>{post.likeCount} likes</span>
+                  </div>
+                  <div className='flex items-center text-gray-600'>
+                    <MessageCircle className='w-5 h-5 mr-2' />
+                    <span>{post.commentCount} comments</span>
+                  </div>
+                </div>
 
-        {/* Related posts section could go here */}
+                {/* Category */}
+                <div className='flex items-center text-gray-600'>
+                  <span className='text-sm'>Category: </span>
+                  <span className='ml-1 px-2 py-1 bg-gray-200 rounded text-sm font-medium'>
+                    {post.category}
+                  </span>
+                </div>
+              </div>
+            </footer>
+          </article>
+
+          {/* Related posts section could go here */}
+        </div>
       </div>
     </div>
   );
