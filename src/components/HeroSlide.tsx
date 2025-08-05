@@ -18,7 +18,7 @@ function HeroSlide({
 }: HeroSlideProps) {
   return (
     <div
-      className='w-full relative flex items-center justify-center overflow-hidden h-[480px] bg-cover bg-center p-[80px]'
+      className='w-full relative flex items-center justify-center overflow-hidden h-[480px] bg-cover bg-center px-4 py-8 sm:px-8 md:px-16 lg:px-20 xl:px-[80px]'
       style={{
         backgroundImage: `url("${backgroundImage}")`,
         backgroundSize: 'cover',
@@ -53,7 +53,7 @@ function HeroSlide({
           >
             {subtitle}
           </p>
-          <div className='flex flex-col sm:flex-row gap-4 justify-start'>
+          <div className='flex flex-col sm:flex-row gap-4 justify-center items-center sm:justify-start'>
             <GlassButton
               className='gradient-border-wrapper text-lg md:text-2xl w-[220px]'
               onClick={onPrimaryClick}
