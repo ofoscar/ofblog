@@ -20,11 +20,9 @@ function HeroSlide({
     <div className='w-full relative flex items-center justify-center overflow-hidden h-[480px] px-4 py-8 sm:px-8 md:px-16 lg:px-20 xl:px-[80px]'>
       {/* Blurred Background Image */}
       <div
-        className='absolute inset-0'
+        className='absolute inset-0 sm:bg-cover bg-center'
         style={{
           backgroundImage: `url("${backgroundImage}")`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat',
           filter: 'blur(4px)',
         }}

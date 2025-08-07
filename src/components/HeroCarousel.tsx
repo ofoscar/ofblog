@@ -6,12 +6,13 @@ import HeroSlide from './HeroSlide';
 
 const HeroCarousel = () => {
   const { posts } = usePosts();
-
   const slides = posts.slice(0, 3).map((post) => ({
     backgroundImage: post.featuredImage || '',
     title: post.title,
     subtitle: post.excerpt || '',
     primaryButtonText: 'Read more',
+    onPrimaryClick: () =>
+      window.open(`https://blog.ofoscar.com/post/${post.slug}`, '_blank'),
   }));
   const timerRef = useRef<NodeJS.Timeout | null>(null);
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -62,7 +63,7 @@ const HeroCarousel = () => {
       <div ref={sliderElRef} className='keen-slider'>
         {slides.map((slide, index) => (
           <div key={index} className='keen-slider__slide w-full'>
-            <HeroSlide {...slide} />
+            <HeroSlide {...slide} onPrimaryClick={slide.onPrimaryClick} />
           </div>
         ))}
       </div>
