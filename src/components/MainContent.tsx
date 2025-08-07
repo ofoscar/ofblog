@@ -1,8 +1,7 @@
-import TipTapViewer from './TipTapViewer';
-import { Tag } from 'lucide-react';
+import { Calendar, Clock, Eye, Heart, MessageCircle, Tag } from 'lucide-react';
 import { theme } from '../theme';
 import type { Post } from '../types/post';
-import { Calendar, Clock, Eye, Heart, MessageCircle } from 'lucide-react';
+import TipTapViewer from './TipTapViewer';
 
 interface MainContentProps {
   post: Post;
