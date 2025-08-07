@@ -17,15 +17,20 @@ function HeroSlide({
   onPrimaryClick,
 }: HeroSlideProps) {
   return (
-    <div
-      className='w-full relative flex items-center justify-center overflow-hidden h-[480px] bg-cover bg-center px-4 py-8 sm:px-8 md:px-16 lg:px-20 xl:px-[80px]'
-      style={{
-        backgroundImage: `url("${backgroundImage}")`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat',
-      }}
-    >
+    <div className='w-full relative flex items-center justify-center overflow-hidden h-[480px] px-4 py-8 sm:px-8 md:px-16 lg:px-20 xl:px-[80px]'>
+      {/* Blurred Background Image */}
+      <div
+        className='absolute inset-0'
+        style={{
+          backgroundImage: `url("${backgroundImage}")`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat',
+          filter: 'blur(4px)',
+        }}
+        aria-hidden='true'
+      ></div>
+
       {/* Overlay for better text readability */}
       <div
         className='absolute inset-0 bg-black opacity-40'

@@ -31,7 +31,7 @@ const AppContent = () => {
       <main className='flex-1'>
         <Routes>
           <Route path='/' element={<MainPage />} />
-          <Route path='/posts' element={<PostsPage />} />
+          <Route path='/archive' element={<PostsPage />} />
           <Route path='/post/:slug' element={<PostPage />} />
           <Route path='/login' element={<LoginPage />} />
           <Route path='/signup' element={<SignupPage />} />
