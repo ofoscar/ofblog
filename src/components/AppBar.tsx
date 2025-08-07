@@ -57,12 +57,6 @@ const AppBar = () => {
               </div>
             </div>
             <div className='flex items-center space-x-8'>
-              {/*  <Link
-                to='/archive'
-                className='text-gray-500 hover:text-gray-600 rounded-md text-sm font-medium transition-colors'
-              >
-                {t('appbar.archive')}
-              </Link> */}
               <SearchButton onClick={toggleSearch} />
               <UserAvatar />
             </div>

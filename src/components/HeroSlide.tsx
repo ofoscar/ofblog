@@ -41,7 +41,7 @@ function HeroSlide({
       <div className='relative z-10 text-left w-full max-w-[1280px]'>
         <div className='flex-col max-w-[800px]'>
           <h1
-            className='text-5xl md:text-[64px] font-bold mb-6 text-white w-full leading-none'
+            className='text-3xl sm:text-5xl md:text-[48px] font-bold mb-6 text-white w-full leading-none'
             style={{
               fontFamily: theme.typography.fontFamily.sans.join(', '),
               textShadow: 'none',
@@ -50,17 +50,18 @@ function HeroSlide({
             {title}
           </h1>
           <p
-            className='text-xl md:text-[32px] leading-tight text-[#EBE2D1] mb-8'
+            className='text-lg sm:text-xl md:text-[28px] text-[#EBE2D1] mb-8'
             style={{
+              lineHeight: '1.2',
               fontFamily: theme.typography.fontFamily.sans.join(', '),
               textShadow: 'none',
             }}
           >
             {subtitle}
           </p>
-          <div className='flex flex-col sm:flex-row gap-4 justify-center items-center sm:justify-start'>
+          <div className='flex flex-col items-start sm:flex-row gap-4 justify-center sm:items-center sm:justify-start'>
             <GlassButton
-              className='gradient-border-wrapper text-lg md:text-2xl w-[220px]'
+              className='gradient-border-wrapper text-lg md:text-2xl sm:w-[220px]'
               onClick={onPrimaryClick}
             >
               {primaryButtonText}
