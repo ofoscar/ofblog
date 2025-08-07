@@ -53,7 +53,9 @@ const HeroCarousel = () => {
     }
   };
 
-  if (slides.length === 0) return null;
+  if (slides.length === 0) {
+    return <div className='h-[480px] bg-gray-300 animate-pulse' />;
+  }
 
   return (
     <div className='relative'>
