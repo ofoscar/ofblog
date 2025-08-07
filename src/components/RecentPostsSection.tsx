@@ -1,47 +1,13 @@
-import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import { apiService } from '../services/api';
+import { usePosts } from '../contexts/PostsContext';
 import { theme } from '../theme';
-import type { Post as ApiPost, PostsResponse } from '../types/post';
+import type { Post as ApiPost } from '../types/post';
 
 function RecentPostsSection() {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const [posts, setPosts] = useState<ApiPost[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  const fetchRecentPosts = async () => {
-    try {
-      setLoading(true);
-      setError(null);
-
-      const params = {
-        page: 1,
-        limit: 6,
-        sort: '-createdAt',
-        status: 'published',
-      };
-
-      const response: PostsResponse = await apiService.getPosts(params);
-
-      if (response.success) {
-        setPosts(response.data.posts);
-      } else {
-        setError('Failed to fetch posts');
-      }
-    } catch (err) {
-      setError('Error loading posts');
-      console.error('Error fetching recent posts:', err);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchRecentPosts();
-  }, []);
+  const { posts, loading, error } = usePosts();
 
   if (loading) {
     return (

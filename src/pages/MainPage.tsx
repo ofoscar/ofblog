@@ -1,12 +1,15 @@
 import HeroCarousel from '../components/HeroCarousel';
 import RecentPostsSection from '../components/RecentPostsSection';
+import { PostsProvider } from '../contexts/PostsContext';
 
 const MainPage = () => {
   return (
-    <div>
-      <HeroCarousel />
-      <RecentPostsSection />
-    </div>
+    <PostsProvider>
+      <div>
+        <HeroCarousel />
+        <RecentPostsSection />
+      </div>
+    </PostsProvider>
   );
 };
 

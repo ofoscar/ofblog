@@ -1,33 +1,18 @@
 import 'keen-slider/keen-slider.min.css';
 import { useKeenSlider } from 'keen-slider/react';
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { usePosts } from '../contexts/PostsContext';
 import HeroSlide from './HeroSlide';
 
-const slides = [
-  {
-    backgroundImage:
-      'https://images.unsplash.com/photo-1446776899648-aa78eefe8ed0?q=80&w=2072',
-    title: 'The World is Wired',
-    subtitle: 'From AI breakthroughs to new mobile frameworks...',
-    primaryButtonText: 'Show more',
-  },
-  {
-    backgroundImage:
-      'https://images.unsplash.com/photo-1581091012184-7e0cdfbb6792?q=80&w=2072',
-    title: 'Next-Gen Connectivity',
-    subtitle: 'Discover the new era of mobile and edge computing.',
-    primaryButtonText: 'Explore',
-  },
-  {
-    backgroundImage:
-      'https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=2072',
-    title: 'Innovate & Create',
-    subtitle: 'Harness technology to push boundaries and build the future.',
-    primaryButtonText: 'Join us',
-  },
-];
-
 const HeroCarousel = () => {
+  const { posts } = usePosts();
+
+  const slides = posts.slice(0, 3).map((post) => ({
+    backgroundImage: post.featuredImage || '',
+    title: post.title,
+    subtitle: post.excerpt || '',
+    primaryButtonText: 'Read more',
+  }));
   const timerRef = useRef<NodeJS.Timeout | null>(null);
   const [currentSlide, setCurrentSlide] = useState(0);
 
@@ -68,11 +53,13 @@ const HeroCarousel = () => {
     }
   };
 
+  if (slides.length === 0) return null;
+
   return (
     <div className='relative'>
       <div ref={sliderElRef} className='keen-slider'>
         {slides.map((slide, index) => (
-          <div key={index} className='keen-slider__slide'>
+          <div key={index} className='keen-slider__slide w-full'>
             <HeroSlide {...slide} />
           </div>
         ))}
