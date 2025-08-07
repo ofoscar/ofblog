@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useAppTranslation } from '../hooks/useAppTranslation';
 import SearchButton from './SearchButton';
 import SearchComponent from './SearchComponent';
@@ -57,12 +57,12 @@ const AppBar = () => {
               </div>
             </div>
             <div className='flex items-center space-x-8'>
-              <Link
+              {/*  <Link
                 to='/archive'
                 className='text-gray-500 hover:text-gray-600 rounded-md text-sm font-medium transition-colors'
               >
                 {t('appbar.archive')}
-              </Link>
+              </Link> */}
               <SearchButton onClick={toggleSearch} />
               <UserAvatar />
             </div>
