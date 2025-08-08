@@ -1,3 +1,4 @@
+import { Toaster } from 'react-hot-toast';
 import {
   Route,
   BrowserRouter as Router,
@@ -64,6 +65,7 @@ const AppContent = () => {
       <Footer />
       <BottomBar />
       <CookiesPopup />
+      <Toaster />
     </div>
   );
 };

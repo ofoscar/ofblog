@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import toast from 'react-hot-toast';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { useAppTranslation } from '../hooks/useAppTranslation';
@@ -45,13 +46,30 @@ const SignupPage = () => {
 
       if (result.success) {
         // On successful registration, redirect to main page
+        toast.success('Account created successfully!');
         navigate('/');
       } else {
-        setError(result.message || 'Registration failed');
+        // Handle validation errors
+        if (result.errors && Array.isArray(result.errors)) {
+          // Display each validation error as a toast
+          result.errors.forEach((error: { field: string; message: string }) => {
+            // Make field names more user-friendly
+            const fieldName =
+              error.field.charAt(0).toUpperCase() + error.field.slice(1);
+            toast.error(`${fieldName}: ${error.message}`);
+          });
+        } else {
+          // Fallback for general error message
+          const errorMessage = result.message || 'Registration failed';
+          toast.error(errorMessage);
+          setError(errorMessage);
+        }
       }
     } catch (error) {
       console.error('Registration failed:', error);
-      setError('An unexpected error occurred. Please try again.');
+      const errorMessage = 'An unexpected error occurred. Please try again.';
+      toast.error(errorMessage);
+      setError(errorMessage);
     } finally {
       setIsLoading(false);
     }
@@ -84,7 +102,7 @@ const SignupPage = () => {
         </div>
         <div className='bg-white/80 backdrop-blur-sm rounded-lg shadow-xl p-8'>
           <form className='space-y-6' onSubmit={handleSubmit}>
-            <div className='grid grid-cols-2 gap-4'>
+            <div className='grid grid-cols-1 sm:grid-cols-2 gap-4'>
               <div>
                 <label
                   htmlFor='firstName'

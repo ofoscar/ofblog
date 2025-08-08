@@ -147,7 +147,7 @@ function Footer({ className = '' }: FooterProps) {
 
       {/* Developed By Section */}
       <div className='border-t border-gray-600 px-8 py-4'>
-        <div className='max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center text-sm text-gray-400'>
+        <div className='max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-start md:items-center text-sm text-gray-400'>
           <p>{t('footer.copyright')}</p>
           <p className='mt-2 md:mt-0'>{t('footer.builtWith')}</p>
         </div>
