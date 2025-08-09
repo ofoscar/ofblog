@@ -412,13 +412,11 @@ let isActive: boolean = true;</code></pre>
         {/* Main content */}
         <MainContent post={post} formatDate={formatDate} />
         {/* Comments Section */}
-        <div className='max-w-4xl mx-auto px-6 pb-12'>
-          <CommentsSection
-            post={post}
-            onCommentAdded={handleCommentAdded}
-            onCommentRemoved={handleCommentRemoved}
-          />
-        </div>
+        <CommentsSection
+          post={post}
+          onCommentAdded={handleCommentAdded}
+          onCommentRemoved={handleCommentRemoved}
+        />
       </div>
     </div>
   );

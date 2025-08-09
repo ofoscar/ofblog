@@ -104,103 +104,37 @@ const CommentsSection = ({
   console.log(post.comments);
   console.log('user', user);
   return (
-    <div className='bg-white rounded-lg shadow-sm overflow-hidden mt-8'>
-      {/* Header */}
-      <div className='p-6 border-b'>
-        <div className='flex items-center gap-3'>
-          <MessageCircle
-            className='w-6 h-6'
-            style={{ color: theme.colors.brand.primary }}
-          />
-          <h2
-            className='text-2xl font-bold'
-            style={{
-              color: theme.colors.text.primary,
-              fontFamily: theme.typography.fontFamily.sans.join(', '),
-            }}
-          >
-            Comments ({post.commentCount})
-          </h2>
-        </div>
-      </div>
-
-      {/* Comment Form */}
-      <div className='p-6 border-b bg-gray-50'>
-        {isAuthenticated ? (
-          <form onSubmit={handleSubmitComment} className='space-y-4'>
-            <div className='flex items-start gap-3'>
-              <div className='flex-shrink-0'>
-                {user?.avatar ? (
-                  <img
-                    src={user.avatar}
-                    alt={user.firstName}
-                    className='w-10 h-10 rounded-full object-cover'
-                  />
-                ) : (
-                  <div
-                    className='w-10 h-10 rounded-full flex items-center justify-center text-white'
-                    style={{ backgroundColor: theme.colors.brand.primary }}
-                  >
-                    <User className='w-5 h-5' />
-                  </div>
-                )}
-              </div>
-              <div className='flex-1'>
-                <textarea
-                  value={comment}
-                  onChange={(e) => setComment(e.target.value)}
-                  placeholder='Add a comment...'
-                  className='w-full px-4 py-3 border border-gray-300 rounded-lg resize-none focus:ring-2 focus:ring-red-200 focus:border-transparent transition-colors'
-                  style={{
-                    fontFamily: theme.typography.fontFamily.sans.join(', '),
-                  }}
-                  rows={3}
-                  disabled={isSubmitting}
-                />
-                {error && <p className='mt-2 text-sm text-red-600'>{error}</p>}
-              </div>
-            </div>
-            <div className='flex justify-end'>
-              <button
-                type='submit'
-                disabled={isSubmitting || !comment.trim()}
-                className='inline-flex items-center gap-2 px-4 py-2 rounded-lg text-white font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed'
-                style={{
-                  backgroundColor: theme.colors.brand.primary,
-                }}
-              >
-                <Send className='w-4 h-4' />
-                {isSubmitting ? 'Posting...' : 'Post Comment'}
-              </button>
-            </div>
-          </form>
-        ) : (
-          <div className='text-center py-8'>
-            <p className='text-gray-600 mb-4'>
-              Please log in to leave a comment
-            </p>
-            <button
-              className='inline-flex items-center px-4 py-2 rounded-lg text-white font-medium transition-colors'
-              style={{ backgroundColor: theme.colors.brand.primary }}
-              onClick={() => (window.location.href = '/login')}
+    <div className='relative z-10 max-w-4xl mx-auto py-1'>
+      <div className='bg-white rounded-lg shadow-sm overflow-hidden mt-8'>
+        {/* Header */}
+        <div className='p-6 border-b'>
+          <div className='flex items-center gap-3'>
+            <MessageCircle
+              className='w-6 h-6'
+              style={{ color: theme.colors.brand.primary }}
+            />
+            <h2
+              className='text-2xl font-bold'
+              style={{
+                color: theme.colors.text.primary,
+                fontFamily: theme.typography.fontFamily.sans.join(', '),
+              }}
             >
-              Log In
-            </button>
+              Comments ({post.commentCount})
+            </h2>
           </div>
-        )}
-      </div>
+        </div>
 
-      {/* Comments List */}
-      <div className='p-6'>
-        {post.comments && post.comments.length > 0 ? (
-          <div className='space-y-6'>
-            {post.comments.map((comment) => (
-              <div key={comment._id} className='flex gap-3'>
+        {/* Comment Form */}
+        <div className='p-6 border-b bg-gray-50'>
+          {isAuthenticated ? (
+            <form onSubmit={handleSubmitComment} className='space-y-4'>
+              <div className='flex items-start gap-3'>
                 <div className='flex-shrink-0'>
-                  {comment.user.avatar ? (
+                  {user?.avatar ? (
                     <img
-                      src={comment.user.avatar}
-                      alt={comment.user.firstName}
+                      src={user.avatar}
+                      alt={user.firstName}
                       className='w-10 h-10 rounded-full object-cover'
                     />
                   ) : (
@@ -212,53 +146,123 @@ const CommentsSection = ({
                     </div>
                   )}
                 </div>
-                <div className='flex-1 min-w-0'>
-                  <div className='flex items-center gap-2 mb-1'>
-                    <span
-                      className='font-medium'
-                      style={{ color: theme.colors.text.primary }}
-                    >
-                      {comment.user.firstName} {comment.user.lastName}
-                    </span>
-                    <span
-                      className='text-sm'
-                      style={{ color: theme.colors.text.secondary }}
-                    >
-                      @{comment.user.username}
-                    </span>
-                    <span className='text-sm text-gray-500'>
-                      {formatCommentDate(comment.createdAt)}
-                    </span>
-                    {user?.id === comment.user._id && (
-                      <button
-                        onClick={() => handleDeleteComment(comment._id)}
-                        className='ml-auto text-red-500 hover:text-red-700'
-                      >
-                        <Trash2 className='w-4 h-4' />
-                      </button>
-                    )}
-                  </div>
-                  <p
-                    className='leading-relaxed'
+                <div className='flex-1'>
+                  <textarea
+                    value={comment}
+                    onChange={(e) => setComment(e.target.value)}
+                    placeholder='Add a comment...'
+                    className='w-full px-4 py-3 border border-gray-300 rounded-lg resize-none focus:ring-2 focus:ring-red-200 focus:border-transparent transition-colors'
                     style={{
-                      color: theme.colors.text.primary,
                       fontFamily: theme.typography.fontFamily.sans.join(', '),
                     }}
-                  >
-                    {comment.content}
-                  </p>
+                    rows={3}
+                    disabled={isSubmitting}
+                  />
+                  {error && (
+                    <p className='mt-2 text-sm text-red-600'>{error}</p>
+                  )}
                 </div>
               </div>
-            ))}
-          </div>
-        ) : (
-          <div className='text-center py-8'>
-            <MessageCircle className='w-12 h-12 mx-auto mb-4 text-gray-400' />
-            <p className='text-gray-600'>
-              No comments yet. Be the first to comment!
-            </p>
-          </div>
-        )}
+              <div className='flex justify-end'>
+                <button
+                  type='submit'
+                  disabled={isSubmitting || !comment.trim()}
+                  className='inline-flex items-center gap-2 px-4 py-2 rounded-lg text-white font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed'
+                  style={{
+                    backgroundColor: theme.colors.brand.primary,
+                  }}
+                >
+                  <Send className='w-4 h-4' />
+                  {isSubmitting ? 'Posting...' : 'Post Comment'}
+                </button>
+              </div>
+            </form>
+          ) : (
+            <div className='text-center py-8'>
+              <p className='text-gray-600 mb-4'>
+                Please log in to leave a comment
+              </p>
+              <button
+                className='inline-flex items-center px-4 py-2 rounded-lg text-white font-medium transition-colors'
+                style={{ backgroundColor: theme.colors.brand.primary }}
+                onClick={() => (window.location.href = '/login')}
+              >
+                Log In
+              </button>
+            </div>
+          )}
+        </div>
+
+        {/* Comments List */}
+        <div className='p-6 sm:p-8'>
+          {post.comments && post.comments.length > 0 ? (
+            <div className='space-y-6'>
+              {post.comments.map((comment) => (
+                <div key={comment._id} className='flex gap-3'>
+                  <div className='flex-shrink-0'>
+                    {comment.user.avatar ? (
+                      <img
+                        src={comment.user.avatar}
+                        alt={comment.user.firstName}
+                        className='w-10 h-10 rounded-full object-cover'
+                      />
+                    ) : (
+                      <div
+                        className='w-10 h-10 rounded-full flex items-center justify-center text-white'
+                        style={{ backgroundColor: theme.colors.brand.primary }}
+                      >
+                        <User className='w-5 h-5' />
+                      </div>
+                    )}
+                  </div>
+                  <div className='flex-1 min-w-0'>
+                    <div className='flex items-center gap-2 mb-1'>
+                      <span
+                        className='font-medium'
+                        style={{ color: theme.colors.text.primary }}
+                      >
+                        {comment.user.firstName} {comment.user.lastName}
+                      </span>
+                      <span
+                        className='text-sm'
+                        style={{ color: theme.colors.text.secondary }}
+                      >
+                        @{comment.user.username}
+                      </span>
+                      <span className='text-sm text-gray-500'>
+                        {formatCommentDate(comment.createdAt)}
+                      </span>
+                      {user?.id === comment.user._id && (
+                        <button
+                          onClick={() => handleDeleteComment(comment._id)}
+                          className='ml-auto text-red-500 hover:text-red-700'
+                        >
+                          <Trash2 className='w-4 h-4' />
+                        </button>
+                      )}
+                    </div>
+                    <p
+                      className='leading-relaxed'
+                      style={{
+                        color: theme.colors.text.primary,
+                        fontFamily: theme.typography.fontFamily.sans.join(', '),
+                      }}
+                    >
+                      {comment.content}
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className='text-center py-8'>
+              <MessageCircle className='w-12 h-12 mx-auto mb-4 text-gray-400' />
+              <p className='text-gray-600'>
+                No comments yet. Be the first to comment!
+              </p>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
