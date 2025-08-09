@@ -74,9 +74,9 @@ const HeroCarousel = () => {
           <button
             key={idx}
             onClick={() => goToSlide(idx)}
-            className={`w-4 h-4 rounded-full transition-colors ${
+            className={`w-3 h-3 sm:w-3.5 sm:h-3.5 rounded-full transition-colors ${
               currentSlide === idx
-                ? 'bg-blue-600 dark:bg-blue-400'
+                ? 'bg-red-600 dark:bg-red-400'
                 : 'bg-gray-300 dark:bg-gray-600'
             }`}
             aria-label={`Go to slide ${idx + 1}`}
