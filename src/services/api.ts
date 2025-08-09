@@ -167,6 +167,27 @@ class ApiService {
 
     return response.json();
   }
+
+  // Comment methods
+  async addComment(postId: string, content: string) {
+    const response = await this.makeRequest(`/api/posts/${postId}/comments`, {
+      method: 'POST',
+      body: JSON.stringify({ content }),
+    });
+
+    return response.json();
+  }
+
+  async deleteComment(postId: string, commentId: string) {
+    const response = await this.makeRequest(
+      `/api/posts/${postId}/comments/${commentId}`,
+      {
+        method: 'DELETE',
+      },
+    );
+
+    return response.json();
+  }
 }
 
 export const apiService = new ApiService();

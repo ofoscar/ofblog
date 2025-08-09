@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import CommentsSection from '../components/CommentsSection';
 import ErrorPost from '../components/ErrorPost';
-import MainContentSkeleton from '../components/MainContentSkeleton';
 import MainContent from '../components/MainContent';
+import MainContentSkeleton from '../components/MainContentSkeleton';
 import TransparentAppBar from '../components/TransparentAppBar';
 import { apiService } from '../services/api';
-import type { Post } from '../types/post';
+import type { Comment, Post } from '../types/post';
 
 const PostPage = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -347,6 +348,26 @@ let isActive: boolean = true;</code></pre>
     });
   };
 
+  const handleCommentAdded = (newComment: Comment, newCount: number) => {
+    if (post) {
+      setPost({
+        ...post,
+        comments: [...post.comments, newComment],
+        commentCount: newCount,
+      });
+    }
+  };
+
+  const handleCommentRemoved = (commentId: string, newCount: number) => {
+    if (post) {
+      setPost({
+        ...post,
+        comments: post.comments.filter((c) => c._id !== commentId),
+        commentCount: newCount,
+      });
+    }
+  };
+
   if (loading) {
     return (
       <div className='min-h-screen bg-gray-50'>
@@ -390,6 +411,12 @@ let isActive: boolean = true;</code></pre>
         <TransparentAppBar />
         {/* Main content */}
         <MainContent post={post} formatDate={formatDate} />
+        {/* Comments Section */}
+        <CommentsSection
+          post={post}
+          onCommentAdded={handleCommentAdded}
+          onCommentRemoved={handleCommentRemoved}
+        />
       </div>
     </div>
   );

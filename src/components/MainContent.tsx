@@ -16,7 +16,7 @@ const MainContent = ({ post, formatDate }: MainContentProps) => {
         <header className='p-8 border-b'>
           {/* Title */}
           <h1
-            className='text-4xl font-bold mb-6 leading-tight'
+            className='text-3xl sm:text-4xl font-bold mb-6 leading-tight'
             style={{
               color: theme.colors.text.primary,
               fontFamily: theme.typography.fontFamily.sans.join(', '),
@@ -28,7 +28,7 @@ const MainContent = ({ post, formatDate }: MainContentProps) => {
           {/* Excerpt */}
           {post.excerpt && (
             <p
-              className='text-xl leading-relaxed mb-6'
+              className='text-xl leading-relaxed'
               style={{
                 color: theme.colors.text.secondary,
                 fontFamily: theme.typography.fontFamily.sans.join(', '),
@@ -47,8 +47,8 @@ const MainContent = ({ post, formatDate }: MainContentProps) => {
         {/* Footer with engagement stats */}
         <footer className='border-t'>
           {/* Categories/Tags */}
-          <div className='flex items-center gap-2 p-4'>
-            {post.tags.slice(0, 3).map((tag, index) => (
+          <div className='flex items-center gap-2 p-4 overflow-x-auto whitespace-nowrap'>
+            {post.tags.map((tag, index) => (
               <span
                 key={index}
                 className='inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800'
@@ -89,17 +89,19 @@ const MainContent = ({ post, formatDate }: MainContentProps) => {
             </div>
 
             <div className='flex items-center space-x-6 text-sm text-gray-500'>
-              <div className='flex items-center'>
+              <div className='flex flex-col sm:flex-row items-center gap-1 sm:gap-0'>
                 <Calendar className='w-4 h-4 mr-1' />
-                {formatDate(post.publishedAt || post.createdAt)}
+                <p className='text-center'>
+                  {formatDate(post.publishedAt || post.createdAt)}
+                </p>
               </div>
-              <div className='flex items-center'>
+              <div className='flex flex-col sm:flex-row items-center gap-1 sm:gap-0'>
                 <Clock className='w-4 h-4 mr-1' />
-                {post.readingTime} min read
+                <p className='text-center'>{post.readingTime} min read</p>
               </div>
-              <div className='flex items-center'>
+              <div className='flex flex-col sm:flex-row items-center gap-1 sm:gap-0'>
                 <Eye className='w-4 h-4 mr-1' />
-                {post.views} views
+                <p className='text-center'>{post.views} views</p>
               </div>
             </div>
           </div>

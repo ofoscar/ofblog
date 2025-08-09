@@ -2,7 +2,7 @@ import { createContext, useContext, useEffect, useState } from 'react';
 import { apiService } from '../services/api';
 
 interface User {
-  _id: string;
+  id: string;
   email: string;
   firstName: string;
   lastName: string;
@@ -26,7 +26,11 @@ interface AuthContextType {
     firstName: string;
     lastName: string;
     bio?: string;
-  }) => Promise<{ success: boolean; message?: string }>;
+  }) => Promise<{
+    success: boolean;
+    message?: string;
+    errors?: Array<{ field: string; message: string; value?: string }>;
+  }>;
   logout: () => Promise<void>;
 }
 
@@ -116,7 +120,11 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
         return { success: true };
       } else {
-        return { success: false, message: data.message };
+        return {
+          success: false,
+          message: data.message,
+          errors: data.errors,
+        };
       }
     } catch (error) {
       console.error('Registration error:', error);
