@@ -25,16 +25,16 @@ function HeroSlide({
           backgroundImage: `url("${backgroundImage}")`,
           backgroundRepeat: 'no-repeat',
           backgroundSize: 'cover', // Ensures the image covers the entire area
-          filter: 'blur(4px)',
+          filter: 'blur(6px)',
           margin: '-10px', // Extends the image slightly beyond the edges
           backgroundColor: '#000', // Adds a matching background color to blend
         }}
         aria-hidden='true'
-      ></div>
+      />
 
       {/* Overlay for better text readability */}
       <div
-        className='absolute inset-0 bg-black opacity-40'
+        className='absolute inset-0 bg-black opacity-50'
         aria-hidden='true'
       ></div>
 
@@ -52,11 +52,14 @@ function HeroSlide({
               {title}
             </h1>
             <p
-              className='text-lg sm:text-xl md:text-3xl  text-[#EBE2D1] text-center sm:text-start'
+              className='text-lg sm:text-xl md:text-3xl  text-[#EBE2D1] text-center sm:text-start overflow-hidden'
               style={{
                 lineHeight: '1.2',
                 fontFamily: theme.typography.fontFamily.sans.join(', '),
                 textShadow: 'none',
+                display: '-webkit-box',
+                WebkitLineClamp: 3,
+                WebkitBoxOrient: 'vertical',
               }}
             >
               {subtitle}

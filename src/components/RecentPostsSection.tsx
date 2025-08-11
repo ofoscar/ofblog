@@ -208,13 +208,16 @@ export const ApiPostCard = ({ post, onNavigate }: ApiPostCardProps) => {
 
         {/* Post Excerpt */}
         <p
-          className='text-base leading-relaxed mb-4'
+          className='text-base leading-relaxed mb-4 overflow-hidden'
           style={{
             color: theme.colors.text.secondary,
             fontFamily: theme.typography.fontFamily.sans.join(', '),
+            display: '-webkit-box',
+            WebkitLineClamp: 3,
+            WebkitBoxOrient: 'vertical',
           }}
         >
-          {post.excerpt || post.content.substring(0, 150) + '...'}
+          {post.excerpt}
         </p>
       </div>
     </div>

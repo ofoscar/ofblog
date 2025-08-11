@@ -153,7 +153,7 @@ class ApiService {
 
   async updatePostStatus(postId: string, status: string) {
     const response = await this.makeRequest(`/api/posts/${postId}`, {
-      method: 'PATCH',
+      method: 'PUT',
       body: JSON.stringify({ status }),
     });
 
