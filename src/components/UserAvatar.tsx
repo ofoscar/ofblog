@@ -52,7 +52,7 @@ const UserAvatar = () => {
         <button className='relative h-8 w-8 rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-stone-500'>
           <Avatar className='h-8 w-8'>
             <AvatarImage src={user?.avatar} alt='User avatar' />
-            <AvatarFallback className='bg-stone-100 text-stone-600'>
+            <AvatarFallback className='bg-blue-200 text-stone-600'>
               {isAuthenticated ? (
                 getUserInitials()
               ) : (
