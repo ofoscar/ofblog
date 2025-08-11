@@ -1,4 +1,11 @@
 {
+  "nav": {
+    "home": "Inicio",
+    "about": "Acerca de",
+    "projects": "Proyectos",
+    "blog": "Blog",
+    "contact": "Contacto"
+  },
   "appbar": {
     "title": "ofblog",
     "main": "Principal",
@@ -72,6 +79,30 @@
   },
   "footer": {
     "copyright": "© 2025 Oscar Rodríguez. Todos los derechos reservados.",
-    "builtWith": "Construido con React y TypeScript"
+    "builtWith": "Construido con React y TypeScript",
+    "about": {
+      "title": "Acerca de",
+      "description": "Apasionado por construir soluciones innovadoras y compartir conocimientos a través del código. Siempre explorando nuevas tecnologías y mejores prácticas."
+    },
+    "newsletter": {
+      "title": "Boletín",
+      "description": "Suscríbete para recibir las últimas actualizaciones sobre tecnología, consejos de programación y perspectivas de proyectos.",
+      "emailPlaceholder": "Ingresa tu email",
+      "subscribe": "Suscribirse",
+      "success": "¡Suscripción exitosa!",
+      "error": "Algo salió mal. Por favor, inténtalo de nuevo.",
+      "sending": "Enviando..."
+    },
+    "quickLinks": {
+      "title": "Enlaces Rápidos",
+      "projects": "Proyectos",
+      "about": "Acerca de",
+      "blog": "Blog",
+      "contact": "Contacto"
+    },
+    "connect": {
+      "title": "Conectar",
+      "description": "Sígueme en redes sociales para actualizaciones y discusiones sobre tecnología."
+    }
   }
 }

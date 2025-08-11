@@ -19,11 +19,11 @@ function Footer({ className = '' }: FooterProps) {
           <div className='grid grid-cols-1 md:grid-cols-4 gap-8'>
             {/* About Section */}
             <div>
-              <h3 className='text-lg font-semibold mb-4'>About</h3>
+              <h3 className='text-lg font-semibold mb-4'>
+                {t('footer.about.title')}
+              </h3>
               <p className='text-gray-300 text-sm leading-relaxed'>
-                Passionate about building innovative solutions and sharing
-                knowledge through code. Always exploring new technologies and
-                best practices.
+                {t('footer.about.description')}
               </p>
             </div>
 
@@ -32,38 +32,48 @@ function Footer({ className = '' }: FooterProps) {
 
             {/* Quick Links */}
             <div>
-              <h3 className='text-lg font-semibold mb-4'>Quick Links</h3>
+              <h3 className='text-lg font-semibold mb-4'>
+                {t('footer.quickLinks.title')}
+              </h3>
               <ul className='space-y-2 text-sm'>
                 <li>
                   <a
-                    href='#projects'
+                    href='https://ofoscar.com/projects'
+                    target='_blank'
+                    rel='noopener noreferrer'
                     className='text-gray-300 hover:text-white transition-colors'
                   >
-                    Projects
+                    {t('nav.projects')}
                   </a>
                 </li>
                 <li>
                   <a
-                    href='#about'
+                    href='https://ofoscar.com/about'
+                    target='_blank'
+                    rel='noopener noreferrer'
                     className='text-gray-300 hover:text-white transition-colors'
                   >
-                    About
+                    {t('nav.about')}
                   </a>
                 </li>
                 <li>
                   <a
-                    href='#blog'
+                    href='https://blog.ofoscar.com'
+                    target='_blank'
+                    rel='noopener noreferrer'
                     className='text-gray-300 hover:text-white transition-colors'
                   >
-                    Blog
+                    {t('nav.blog')}
                   </a>
                 </li>
                 <li>
                   <a
-                    href='#contact'
+                    href='https://ofoscar.com/contact'
+                    target='_blank'
+                    rel='noopener noreferrer'
                     className='text-gray-300 hover:text-white transition-colors'
                   >
-                    Contact
+                    {t('nav.contact')}
                   </a>
                 </li>
               </ul>
@@ -71,9 +81,11 @@ function Footer({ className = '' }: FooterProps) {
 
             {/* Connect Section */}
             <div>
-              <h3 className='text-lg font-semibold mb-4'>Connect</h3>
+              <h3 className='text-lg font-semibold mb-4'>
+                {t('footer.connect.title')}
+              </h3>
               <p className='text-gray-300 text-sm mb-4'>
-                Follow me on social media for updates and tech discussions.
+                {t('footer.connect.description')}
               </p>
               <div className='flex flex-wrap gap-3'>
                 <a
